@@ -1,19 +1,20 @@
-
-
-
-
 $(document).ready(function() {
-    $('#roleSelect').change(function() {
+    $('select[name="role"]').change(function() {
       var selectedRole = $(this).val();
-      
-      // Send the selected role to a PHP script using AJAX
+      console.log(selectedRole);
+  
       $.ajax({
-        url: 'process.php',
-        method: 'POST',
-        data: { role: selectedRole },
-        success: function(response) {
-          // Handle the response from the PHP script
-          console.log(response);
+        type: "POST",
+        url: "admin.php",
+        data: {
+          role: selectedRole, // send the selected role dynamically
+        },
+        cache: false,
+        success: function(data) {
+          console.log(data);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr);
         }
       });
     });

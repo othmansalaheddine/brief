@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,20 +7,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="assets/css/style_admin.css">
+  <script src="https://cdn.tailwindcss.com/"></script>
+ 
+  <!-- <script src="tailwind.config.js"></script> -->
 </head>
 
 <body>
-  <?php
-  require 'host.php';
+<?php
+require 'host.php';
 
-  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+$selectedRole = "nothing";
+
+if (isset($_POST["role"])) {
     $selectedRole = $_POST["role"];
-    
-    // Use the selected role value as needed
-    echo "Selected Role: " . $selectedRole;
-  }
+    echo "<h1>Selected Role: $selectedRole</h1>";
 
-  ?>
+    // Use prepared statement to prevent SQL injection
+    $sql = "UPDATE users SET type = ? WHERE id = 4";
+
+    $stmt = $conn->prepare($sql);
+
+    // Bind the parameter
+    $stmt->bind_param("s", $selectedRole);  // Assuming 's' for string, adjust if needed
+
+    // Execute the statement
+    $result = $stmt->execute();
+
+    if ($result) {
+        echo "<p>Update successful.</p>";
+    } else {
+        echo "<p>Error updating the database.</p>";
+    }
+
+    // Close the statement
+    $stmt->close();
+} else {
+    echo "<h1>No role selected.</h1>";
+}
+
+// Close the database connection
+
+?>
   <!-- component -->
   <!-- component -->
 
@@ -126,7 +154,7 @@
                         <td class="border px-4 py-2">'.$row["type"].'</td>
                         <td class="border px-4 py-2">'.$row["phone"].'</td>
                         <td class="border px-4 py-2">
-                          <select id="roleSelect" name="role">
+                          <select id="roleSelect' . $row["id"] . ' value="' . $row["id"] . '"" name="role">
                             <option value="Unverified">Unverified</option>
                             <option value="User">User</option>
                             <option value="Admin">Admin</option>
@@ -146,10 +174,21 @@
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="roleselect.js"></script>
+  
   
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-  <script src="https://cdn.tailwindcss.com/"></script>
+  <script src="roleselect.js"></script>
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

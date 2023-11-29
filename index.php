@@ -87,34 +87,36 @@
   </div>
   
   <!-- Tab Menu -->
+  <form method="post">
   <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
-      <a rel="noopener noreferrer" href="#" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
+      <button rel="noopener noreferrer" name="all" value="all" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
           </svg>
-          <span>Architecto</span>
-      </a>
-      <a rel="noopener noreferrer" href="#" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+          <span>ALL</span>
+      </button>
+      <button rel="noopener noreferrer" name="Arduino" value="Arduino" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
               <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
           </svg>
-          <span>Corrupti</span>
-      </a>
-      <a rel="noopener noreferrer" href="#" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
+          <span>Arduino</span>
+      </button>
+      <button rel="noopener noreferrer" name="Electrique" value="Electrique" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
           </svg>
-          <span>Excepturi</span>
-      </a>
-      <a rel="noopener noreferrer" href="#" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
+          <span>Electrique part</span>
+      </button>
+      <button rel="noopener noreferrer" name="Switch" value="Switch" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
               <circle cx="12" cy="12" r="10"></circle>
               <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
           </svg>
-          <span>Consectetur</span>
-      </a>
+          <span>Switch</span>
+      </button>
   </div>
+  </form>
   
   <!-- Product List -->
   <section class="py-10 bg-gray-100">
@@ -126,10 +128,43 @@
 
 
     
+    $counter = 1; 
+    $counter2 = 1;
+    $counteur = 1;
+    $variable = 1;
+    $catalogue = 1;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      
+    if (isset($_POST['Arduino'])) {
+        $catalogue = 1;
+    } elseif (isset($_POST['Electrique'])) {
+      $catalogue = 2;
+    } elseif (isset($_POST['Switch'])) {
+      $catalogue = 3;
+    }
+    $sql = "SELECT * FROM product WHERE category = $catalogue";
+    $result = $conn->query($sql);
+    if (isset($_POST['all'])) {
+      
+      $sql = "SELECT * FROM product";
+      $result = $conn->query($sql);
+  }
+    $variable = $result->num_rows;
+    $pages = round($variable / 4);
+    while($counteur <= $pages){
+      if (isset($_POST["button" . $counteur])) {
+        $variable = $counteur;
+    }
+      $counteur++;
+    }
+    }
 
+   
 
   if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
+    $offset = ($variable - 1) * 8;
+    $desiredRow = $result->data_seek($offset);
+    while (($row = $result->fetch_assoc()) && ( $counter <= 4) ) {
       echo'
       <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
         <a href="#">
@@ -163,10 +198,24 @@
         </a>
       </article>
       ';
+      $counter++;
     }
+    $counter = 0;
   }
+  
+
       ?>
       
+    </div>
+    <div class="flex text-center justify-center">
+      <form method="post">
+    <?php 
+    while ($counter2 <= $pages) {
+      echo '<button class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name= button' . $counter2 . '>' . $counter2 . '</button>';
+      $counter2++ ; 
+    }
+    ?>
+    </form>
     </div>
   </section>
   
