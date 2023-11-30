@@ -16,14 +16,15 @@
 <?php
 require 'host.php';
 
-$selectedRole = "nothing";
+$selectedRole = "Unverified";
 
 if (isset($_POST["role"])) {
     $selectedRole = $_POST["role"];
+    $userId = $_POST["userId"];
     echo "<h1>Selected Role: $selectedRole</h1>";
 
     // Use prepared statement to prevent SQL injection
-    $sql = "UPDATE users SET type = ? WHERE id = 4";
+    $sql = "UPDATE users SET type = ? WHERE id = $userId";
 
     $stmt = $conn->prepare($sql);
 
@@ -56,7 +57,7 @@ if (isset($_POST["role"])) {
       <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
         <div x-data="{ open: true }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
           <div class="flex flex-row items-center justify-between p-4">
-            <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">Flowtrail UI</a>
+            <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">ELECTRONACER</a>
             <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
               <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                 <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -154,7 +155,7 @@ if (isset($_POST["role"])) {
                         <td class="border px-4 py-2">'.$row["type"].'</td>
                         <td class="border px-4 py-2">'.$row["phone"].'</td>
                         <td class="border px-4 py-2">
-                          <select id="roleSelect' . $row["id"] . ' value="' . $row["id"] . '"" name="role">
+                          <select id="roleSelect' . $row["id"] . ' value="' . $row["id"] . '"" name="role" data-user-id="' . $row["id"] . '">
                             <option value="Unverified">Unverified</option>
                             <option value="User">User</option>
                             <option value="Admin">Admin</option>

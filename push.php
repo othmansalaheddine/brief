@@ -7,7 +7,16 @@
 </head>
 <body>
   <?php 
-    
+  
+
+    if(isset($_FILES['imageToUpload'])){
+      move_uploaded_file($_FILES['imageToUpload']['tmp_name'], "assets/image/". $_FILES['imageToUpload']['name']);
+    }
+    else{
+        echo "image not found!";
+    }
+     
+  
   ?>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <div class="fixed z-40 w-[100vw]">
@@ -15,7 +24,7 @@
       <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
         <div x-data="{ open: true }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
           <div class="flex flex-row items-center justify-between p-4">
-            <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">Flowtrail UI</a>
+            <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">ELECTRONACER</a>
             <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
               <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                 <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -76,35 +85,48 @@
       </div>
       <section class="py-10 bg-gray-100">
         <div class="mx-auto grid max-w-6x gap-6 p-6 w-96">
-      <article class="rounded-xl  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+      <article class="rounded-xl mt-10  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
         <a href="#">
+        <form  method="POST" enctype="multipart/form-data">
           <div class="relative flex items-end overflow-hidden rounded-xl">
-            <img src="assets/image/arduino.jpg" alt="Hotel Photo" />
-            <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-              </svg>
-  
-              <button class="text-sm">Add to cart</button>
-            </div>
+          
+    
+            <input type="file" name="imageToUpload">
+
+    
+          
+            
           </div>
   
-          <div class="mt-1 p-2">
-            <h2 class="text-slate-700">Arduino</h2>
-            <p class="mt-1 text-sm text-slate-400">Lisbon, Portugal</p>
+          <div class="mt-10 p-2">
+            <div class="flex">
+            <input class="text-slate-700" placeholder="name"></input>
+            <select id="roleSelect" name="role">
+              <option value="arduino">arduino</option>
+              <option value="switch">switch</option>
+              <option value="electrique">electrique</option>
+                          
+            </select>
+            </div>
+            <div class="mt-1 text-sm text-slate-400 flex">
+              <input type="text" placeholder="city"><input type="text" placeholder="country">
+            </div>
   
             <div class="mt-3 flex items-end justify-between">
-                <p class="text-lg font-bold text-blue-500">$850</p>
+                <input class="text-lg font-bold text-blue-500 to-blue-500" placeholder="price"></input>
   
               <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                <button type="submit" name="submit" value="Submit" class="flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                 </svg>
   
-                <button class="text-sm">Add to cart</button>
+                <a  class="text-sm">submit</a>
+                </button>
               </div>
             </div>
           </div>
+          </form>
         </a>
       </article>
       </div>
