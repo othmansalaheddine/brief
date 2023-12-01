@@ -21,3 +21,27 @@ $(document).ready(function() {
       });
     });
   });
+
+
+  $(document).ready(function() {
+    $('select[name="role"]').change(function() {
+      var selectedRole = $(this).val();
+      var userId = $(this).data('user-id');
+      console.log(selectedRole);
+  
+      $.ajax({
+        type: "POST",
+        url: "push.php",
+        data: {
+          role: selectedRole
+        },
+        cache: false,
+        success: function(data) {
+          console.log(data);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr);
+        }
+      });
+    });
+  });

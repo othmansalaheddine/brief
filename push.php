@@ -3,21 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com/"></script>
     <title>Document</title>
 </head>
 <body>
-  <?php 
-  
+<?php
+include "host.php";
+$selectedRole = "arduino";
 
-    if(isset($_FILES['imageToUpload'])){
-      move_uploaded_file($_FILES['imageToUpload']['tmp_name'], "assets/image/". $_FILES['imageToUpload']['name']);
-    }
-    else{
-        echo "image not found!";
-    }
-     
+if (isset($_POST["role"])) {
+  $selectedRole = $_POST["role"];
+  $userId = $_POST["userId"];
+  echo "<h1>Selected Role: $selectedRole</h1>";
+    if (isset($_FILES['imageToUpload'])) {
+      $nameimage = $_FILES['imageToUpload']['name'];
+  }
+
+else {
+    echo "image not found!";
+}
+
   
-  ?>
+}
+
+?>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <div class="fixed z-40 w-[100vw]">
       <div class="antialiased bg-gray-100 dark-mode:bg-gray-900 border-black border-opacity-20 drop-shadow-xl border-spacing-1 border-2">
@@ -86,7 +95,7 @@
       <section class="py-10 bg-gray-100">
         <div class="mx-auto grid max-w-6x gap-6 p-6 w-96">
       <article class="rounded-xl mt-10  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
-        <a href="#">
+        <a >
         <form  method="POST" enctype="multipart/form-data">
           <div class="relative flex items-end overflow-hidden rounded-xl">
           
@@ -100,13 +109,27 @@
   
           <div class="mt-10 p-2">
             <div class="flex">
-            <input class="text-slate-700" placeholder="name"></input>
-            <select id="roleSelect" name="role">
-              <option value="arduino">arduino</option>
-              <option value="switch">switch</option>
-              <option value="electrique">electrique</option>
+            <input class="text-slate-700" placeholder="name" name="name"></input>
+            <select id="roleSelect" value="1" name="role" data-user-id="1">
+            <?php
+                $sql2 = "SELECT * FROM category";
+                $result2 = $conn->query($sql2);
+                if ($result2->num_rows > 0) {
+                  while ($row2 = $result2->fetch_assoc()) {
+                    echo '
+                      
                           
-            </select>
+                            <option value="' . $row2['name'] . '">' . $row2['name'] . '</option>
+                            
+                          
+                         
+                        
+                    ';
+                  }
+                }
+                ?>
+      </select>
+            
             </div>
             <div class="mt-1 text-sm text-slate-400 flex">
               <input type="text" placeholder="city"><input type="text" placeholder="country">
@@ -130,7 +153,12 @@
         </a>
       </article>
       </div>
+      
       </section>
-    <script src="https://cdn.tailwindcss.com/"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="roleselect.js"></script>
 </body>
 </html>

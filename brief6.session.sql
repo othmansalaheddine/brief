@@ -11,8 +11,14 @@ CREATE TABLE users (
    password varchar(25),
    type ENUM('unverified', 'user', 'admin') DEFAULT 'unverified'
 );
-
-
+-- @block
+CREATE TABLE category(
+   id int PRIMARY KEY AUTO_INCREMENT,
+   name varchar(25),
+   description varchar(225),
+   image varchar(255)
+)
+-- @block
 CREATE TABLE product (
    id int PRIMARY KEY AUTO_INCREMENT, 
    name varchar(255),
@@ -22,9 +28,15 @@ CREATE TABLE product (
    stock int,
    country varchar(255),
    city varchar(255),
-   category int 
+   category int,
+   FOREIGN KEY (category) REFERENCES category(id)
 );
-
+-- @block
+INSERT INTO category (name, description, image) VALUES
+("arduino","adadadadadada", "New York"),
+("electrique","adadadadadada", "New York"),
+("switch","adadadadadada", "New York");
+-- @block
 INSERT INTO product (name, old_price, new_price, category, image, stock, country, city) VALUES
 ("LED", 0.5, 0.25, 1, "LED.jpg", 12, "USA", "New York"),
 ("Resistor", 0.1, 0.05, 3, "Resistor.jpg", 5, "Canada", "Toronto"),
@@ -46,5 +58,7 @@ INSERT INTO product (name, old_price, new_price, category, image, stock, country
 ("Connector", 0.3, 0.15, 3, "Connector.jpg", 30, "Switzerland", "Zurich"),
 ("PCB", 5.0, 2.5, 2, "PCB.jpg", 4, "Belgium", "Brussels"),
 ("Oscillator", 1.5, 0.75, 1, "Oscillator.jpg", 20, "Argentina", "Buenos Aires");
+
+
 
 

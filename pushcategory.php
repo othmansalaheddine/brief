@@ -7,46 +7,49 @@
     <title>Document</title>
 </head>
 <body>
-<?php 
-  require 'host.php';
-
-
+  <?php 
+  include "host.php";
+  $category = "";
+  $description = "";
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (isset($_FILES['imageToUpload'])) {
+      $nameimage = $_FILES['imageToUpload']['name'];
+  }
+  
+  else {
+      echo "image not found!";
+  }
+  
+      $description = $_POST["descritpion"];
+      $category = $_POST["category"];
+      if ($category == "" && empty($nameimage) && $description == "") {
+        echo 'error';
+    } else if ($category != "" && !empty($nameimage) && $description != "") {
+        move_uploaded_file($_FILES['imageToUpload']['tmp_name'], "assets/image_category/" . $_FILES['imageToUpload']['name']);
     
-    $email = $_POST["email"];
-   
-    $password = $_POST["password"];
-    if($email == '' || $password == ''){
-      echo 'error';
-    }
-    else{
-    // Check if the user already exists
-    $checkUserQuery = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-    $checkUserResult = $conn->query($checkUserQuery);
-
-    if ($checkzUserResult->num_rows === 0) {
-        echo '<div class ="absolute mt-20 ">EMail or the password is wrong. Please check. </div>';
-        
-                                      
-    } else if ($checkUserResult->num_rows === 1){
-        // Set Verified to FALSE by default
-        header("Location: index.php");
-        
-          exit();
-        
+        // Insert the data into the MySQLi table
+        $sql = "INSERT INTO category (name, image , description) VALUES ('$category', '$nameimage' , '$description')";
+        if ($conn->query($sql) === TRUE) {
+            echo "Data inserted successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo 'error';
     }
   }
-}
-
+  
+  
+  
+  
   ?>
-    <!-- component -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <div class="fixed z-40 w-[100vw]">
       <div class="antialiased bg-gray-100 dark-mode:bg-gray-900 border-black border-opacity-20 drop-shadow-xl border-spacing-1 border-2">
       <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
         <div x-data="{ open: true }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
           <div class="flex flex-row items-center justify-between p-4">
-            <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">ELECTRONACER</a>
+            <a  class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">ELECTRONACER</a>
             <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
               <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                 <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -67,12 +70,12 @@
               <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full md:max-w-screen-sm md:w-screen mt-2 origin-top-right">
                 <div class="px-2 pt-2 pb-4 bg-white rounded-md shadow-lg dark-mode:bg-gray-700">
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a class=" flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">
+                    <a class="flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="push.php">
                       <div class="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-lg p-3">
                         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="md:h-6 md:w-6 h-4 w-4"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                       </div>
                       <div class="ml-3">
-                        <p class="font-semibold">Appearance</p>
+                        <p class="font-semibold">Push</p>
                         <p class="text-sm">Easy customization</p>
                       </div>
                     </a>
@@ -87,7 +90,7 @@
                       </div>
                     </a>
     
-                    <a class=" flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">
+                    <a class=" flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" >
                       <div class="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-lg p-3">
                         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="md:h-6 md:w-6 h-4 w-4"><path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                       </div>
@@ -105,43 +108,50 @@
       </div>
     </div>
       </div>
+      <section class="py-10 bg-gray-100">
+        <div class="mx-auto grid max-w-6x gap-6 p-6 w-96">
+      <article class="rounded-xl mt-10  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+        <a href="#">
+        <form  method="POST" enctype="multipart/form-data">
+          <div class="relative flex items-end overflow-hidden rounded-xl">
+          
+    
+            <input type="file" name="imageToUpload">
 
+    
+          
+            
+          </div>
+  
+          <div class="mt-10 p-2">
+            <div class="flex">
+            
+            <input class="text-slate-700" name="category" placeholder="name de category"></input>
 
-<div class="flex items-center min-h-screen bg-white dark:bg-gray-900">
-    <div class="container mx-auto">
-        <div class="max-w-md mx-auto my-10">
-            <div class="text-center">
-                <h1 class="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200" >Sign in</h1>
-                <p class="text-gray-500 dark:text-gray-400">Sign in to access your account</p>
+            <input class="text-slate-700" name="descritpion" placeholder="description here"></input>
+            
             </div>
-            <div class="m-7">
-                <form method="post">
-                    <div class="mb-6">
-                        <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Email Address</label>
-                        <input type="email" name="email" id="email" placeholder="you@company.com" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
-                    </div>
-                    <div class="mb-6">
-                        <div class="flex justify-between mb-2">
-                            <label for="password" class="text-sm text-gray-600 dark:text-gray-400">Password</label>
-                            <a href="#!" class="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300">Forgot password?</a>
-                        </div>
-                        <input type="password" name="password" id="password" placeholder="Your Password" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
-                    </div>
-                    <div class="mb-6">
-                        <button type="submit"  class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none">Sign in</button>
-                    </div>
-                    <p class="text-sm text-center text-gray-400">Don&#x27;t have an account yet? <a href="signup.php" class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800">Sign up</a>.</p>
-                </form>
+            
+  
+            <div class="mt-3 flex items-end justify-between">
+                
+  
+              <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                <button type="submit" name="submit" value="Submit" class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+  
+                <a  class="text-sm">submit</a>
+                </button>
+              </div>
             </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Footer Mentions -->
-<div class="fixed bottom-5 w-full text-center text-gray-400">
-	Crafted with ♡ by <a class="text-blue-500" target="_blank" href="https://web3templates.com/components/">Web3Templates</a>
-</div>
-<script src="https://cdn.tailwindcss.com/"></script>
+          </div>
+          </form>
+        </a>
+      </article>
+      </div>
+      </section>
+    
 </body>
 </html>
