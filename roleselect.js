@@ -26,14 +26,15 @@ $(document).ready(function() {
   $(document).ready(function() {
     $('select[name="role"]').change(function() {
       var selectedRole = $(this).val();
-      var userId = $(this).data('user-id');
+      var userId = $(this).find(':selected').attr('id');
       console.log(selectedRole);
   
       $.ajax({
         type: "POST",
         url: "push.php",
         data: {
-          role: selectedRole
+          role: selectedRole,
+          userId: userId
         },
         cache: false,
         success: function(data) {

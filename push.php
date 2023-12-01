@@ -10,21 +10,59 @@
 <?php
 include "host.php";
 $selectedRole = "arduino";
-
+$name = "";
+$city = "";
+$country = "";
+$new_price = 0;
+$nameimage = "";
 if (isset($_POST["role"])) {
   $selectedRole = $_POST["role"];
-  $userId = $_POST["userId"];
+  
   echo "<h1>Selected Role: $selectedRole</h1>";
-    if (isset($_FILES['imageToUpload'])) {
-      $nameimage = $_FILES['imageToUpload']['name'];
-  }
+}
+if (isset($_FILES['imageToUpload'])) {
+  $nameimage = $_FILES['imageToUpload']['name'];
+}
 
 else {
     echo "image not found!";
 }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST["name"];
+    $city = $_POST["city"];
+    $country = $_POST["country"];
+    $new_price = $_POST["new_price"];
+    
+    if ($name == "" && empty($nameimage) && $city == "" && $country == "" && $new_price == 0) {
+      echo 'error';
+  }else if($name != "" && !empty($nameimage) && $city != "" && $country != "" && $new_price != 0){
+    move_uploaded_file($_FILES['imageToUpload']['tmp_name'], "assets/image/" . $_FILES['imageToUpload']['name']);
+    $sql3 = "SELECT id FROM category WHERE name = '$selectedRole'";
+$result3 = $conn->query($sql3);
+
+if ($result3->num_rows > 0) {
+  $row3 = $result3->fetch_assoc();
+  $id_category = $row3['id'];
+} else {
+  // Category not found
+  $id_category = null;
+}
+    // Insert the data into the MySQLi table
+    $sql = "INSERT INTO product (name, new_price , category , city, country,image) VALUES ('$name', '$nameimage' , '$id_category' , '$city' , '$country' , '$nameimage')";
+    if ($conn->query($sql) === TRUE) {
+        echo "Data inserted successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+  }else{
+    echo 'failed';
+  }
+}
+
 
   
-}
+
 
 ?>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -110,7 +148,7 @@ else {
           <div class="mt-10 p-2">
             <div class="flex">
             <input class="text-slate-700" placeholder="name" name="name"></input>
-            <select id="roleSelect" value="1" name="role" data-user-id="1">
+            <select id="roleSelect" value="1" name="role" >
             <?php
                 $sql2 = "SELECT * FROM category";
                 $result2 = $conn->query($sql2);
@@ -119,7 +157,7 @@ else {
                     echo '
                       
                           
-                            <option value="' . $row2['name'] . '">' . $row2['name'] . '</option>
+                            <option value="' . $row2['name'] . '" id="' . $row["id"] . '">' . $row2['name'] . '</option>
                             
                           
                          
@@ -132,11 +170,11 @@ else {
             
             </div>
             <div class="mt-1 text-sm text-slate-400 flex">
-              <input type="text" placeholder="city"><input type="text" placeholder="country">
+              <input type="text" placeholder="city" name="city"><input type="text" placeholder="country" name="country">
             </div>
   
             <div class="mt-3 flex items-end justify-between">
-                <input class="text-lg font-bold text-blue-500 to-blue-500" placeholder="price"></input>
+                <input class="text-lg font-bold text-blue-500 to-blue-500" placeholder="price" name="new_price"></input>
   
               <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
                 <button type="submit" name="submit" value="Submit" class="flex">
