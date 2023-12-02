@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com/"></script>
     <title>Document</title>
 </head>
+ 
 <body>
-  <?php 
-  require 'host.php';
-  ?>
+    <?php
+    require 'host.php';
+    ?>
     <!-- component -->
-    
-<!-- Create By Joker Banny -->
-<body class="bg-white"> 
-    <!-- Header Navbar -->
-    
-    <div class="fixed z-40 w-[100vw]">
+ 
+    <!-- Create By Joker Banny -->
+ 
+    <body class="bg-white">
+        <!-- Header Navbar -->
+        <div class="fixed z-40 w-[100vw]">
       <div class="antialiased bg-gray-100 dark-mode:bg-gray-900 border-black border-opacity-20 drop-shadow-xl border-spacing-1 border-2">
       <div class="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
         <div x-data="{ open: true }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
@@ -42,7 +44,7 @@
               <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full md:max-w-screen-sm md:w-screen mt-2 origin-top-right">
                 <div class="px-2 pt-2 pb-4 bg-white rounded-md shadow-lg dark-mode:bg-gray-700">
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a class=" flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="push.php">
+                    <a class="flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="push.php">
                       <div class="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white rounded-lg p-3">
                         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="md:h-6 md:w-6 h-4 w-4"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                       </div>
@@ -80,149 +82,143 @@
       </div>
     </div>
       </div>
-  
-  
-  <!-- Title -->
-  <div class="pt-32  bg-white">
-  <h1 class="text-center text-2xl font-bold text-gray-800">Categories</h1>
-  </div>
-  
-  <!-- Tab Menu -->
-  <form method="post">
-  <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
-      <button rel="noopener noreferrer" name="all" value="all" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-          </svg>
-          <span>ALL</span>
-      </button>
-      <button rel="noopener noreferrer" name="Arduino" value="Arduino" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-          </svg>
-          <span>Arduino</span>
-      </button>
-      <button rel="noopener noreferrer" name="Electrique" value="Electrique" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Electrique part</span>
-      </button>
-      <button rel="noopener noreferrer" name="Switch" value="Switch" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-          </svg>
-          <span>Switch</span>
-      </button>
-  </div>
-  </form>
-  
-  <!-- Product List -->
-  <section class="py-10 bg-gray-100">
-    <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-
-    <?php 
-      
-
-
-    $pages = 1;
-    $counter = 1; 
-    $counter2 = 1;
-    $counteur = 1;
-    $variable = 1;
-    $catalogue = 1;
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      
-    if (isset($_POST['Arduino'])) {
-        $catalogue = 1;
-    } elseif (isset($_POST['Electrique'])) {
-      $catalogue = 2;
-    } elseif (isset($_POST['Switch'])) {
-      $catalogue = 3;
-    }
-    $sql = "SELECT * FROM product WHERE category = $catalogue";
-    $result = $conn->query($sql);
-    if (isset($_POST['all'])) {
-      
-      $sql = "SELECT * FROM product";
-      $result = $conn->query($sql);
-      $catalogue = 1;
-  }
-    $variable = $result->num_rows;
-    $pages = round($variable / 4);
-    while($counteur <= $pages){
-      if (isset($_POST["button" . $counteur])) {
-        $variable = $counteur;
-    }
-      $counteur++;
-    }
-    }
-
-   
-
-  if ($result->num_rows > 0) {
-    $offset = ($variable - 1) * 8;
-    $desiredRow = $result->data_seek($offset);
-    while (($row = $result->fetch_assoc()) && ( $counter <= 4) ) {
-      echo'
-      <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
-        <a href="#">
-          <div class="relative flex items-end overflow-hidden rounded-xl">
-            <img src="assets/image/' . $row['image'] . '" alt="Hotel Photo" />
-            <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-              </svg>
-  
-              <button class="text-sm">Add to cart</button>
+ 
+ 
+        <!-- Title -->
+        <div class="pt-32  bg-white">
+            <h1 class="text-center text-2xl font-bold text-gray-800">Categories</h1>
+        </div>
+ 
+        <!-- Tab Menu -->
+        <form method="post">
+            <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
+                <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>ALL</span>
+                </button>
+                <button rel="noopener noreferrer" name="category" value="1" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                    <span>Arduino</span>
+                </button>
+                <button rel="noopener noreferrer" name="category" value="2" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <span>Electrique part</span>
+                </button>
+                <button rel="noopener noreferrer" name="category" value="3" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2  text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                    </svg>
+                    <span>Switch</span>
+                </button>
             </div>
-          </div>
-  
-          <div class="mt-1 p-2">
-            <h2 class="text-slate-700">' . $row['name'] . '</h2>
-            <p class="mt-1 text-sm text-slate-400">' . $row['city'] . ', ' . $row['country'] . '</p>
-  
-            <div class="mt-3 flex items-end justify-between">
-                <p class="text-lg font-bold text-blue-500">$' . $row['new_price'] . '</p>
-  
-              <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                </svg>
-  
-                <button class="text-sm">Add to cart</button>
-              </div>
-            </div>
-          </div>
-        </a>
-      </article>
-      ';
-      $counter++;
-    }
-    $counter = 0;
-  }
-  
-
-      ?>
-      
-    </div>
-    <div class="flex text-center justify-center">
-      <form method="post">
-    <?php 
-    while ($counter2 <= $pages) {
-      echo '<button class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name= button' . $counter2 . '>' . $counter2 . '</button>';
-      $counter2++ ; 
-    }
-    ?>
-    </form>
-    </div>
-  </section>
-  
-  <!-- Footer -->
-  <footer class="py-6  bg-gray-200 text-gray-900">
+ 
+            <!-- Product List -->
+            <section class="py-10 bg-gray-100">
+                <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+ 
+                    <?php
+                    $page = 1;
+                    $offset = 0;
+                    $pageSize = 4;
+                    $category = 0;
+ 
+                    if (isset($_POST["page"])) {
+                        $page = intval($_POST["page"]);
+                    }
+                    if (isset($_POST["category"])) {
+                        $category = intval($_POST["category"]);
+                        $_SESSION["category"] = $category;
+                    } else {
+                        if (isset($_SESSION["category"])) {
+                            $category = $_SESSION["category"];
+                        }
+                    }
+ 
+                    if ($page > 1) {
+                        $index = $page - 1;
+                        $offset = ($index * $pageSize);
+                    }
+ 
+ 
+ 
+                    $sql = "SELECT * FROM product";
+                    $counterSql = "SELECT count(*) as count FROM product";
+                    if ($category > 0) {
+                        $sql = $sql . "  WHERE category = $category";
+                        $counterSql = $counterSql . "  WHERE category = $category";
+                    }
+                    $result = $conn->query($counterSql);
+                    $row = $result->fetch_assoc();
+                    $totalMatchingProducts = intval($row["count"]);
+                    $sql = $sql . " LIMIT $pageSize OFFSET $offset";
+                    $result = $conn->query($sql);
+ 
+ 
+                    $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
+                    if ($result->num_rows > 0) {
+                        while (($row = $result->fetch_assoc())) {
+                            echo '
+                            <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+                                <a >
+                                <div class="relative flex items-end overflow-hidden rounded-xl">
+                                    <img src="assets/image/' . $row['image'] . '" alt="Hotel Photo" />
+                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                    </svg>
+ 
+                                    <button class="text-sm">Add to cart</button>
+                                    </div>
+                                </div>
+ 
+                                <div class="mt-1 p-2">
+                                    <h2 class="text-slate-700">' . $row['name'] . '</h2>
+                                    <p class="mt-1 text-sm text-slate-400">' . $row['city'] . ', ' . $row['country'] . '</p>
+ 
+                                    <div class="mt-3 flex items-end justify-between">
+                                        <p class="text-lg font-bold text-blue-500">$' . $row['new_price'] . '</p>
+ 
+                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                        </svg>
+ 
+                                        <button class="text-sm">Add to cart</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </a>
+                            </article>
+                        ';
+                        }
+                    }
+                    ?>
+ 
+                </div>
+                <div class="flex text-center justify-center">
+                    <?php
+                    $page = 1;
+                    while ($page <= $totalPossiblePages) {
+                        echo '<button class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name="page" value="' . $page . '">' . $page . '</button>';
+                        $page++;
+                    }
+                    ?>
+                </div>
+            </section>
+        </form>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+ 
+    </body>
+ 
+    <footer class="py-6  bg-gray-200 text-gray-900">
       <div class="container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50">
           <div class="grid justify-center  lg:justify-between">
               <div class="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6">
@@ -255,11 +251,7 @@
           </div>
       </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-  
-  </body>
-
-    
-    
+ 
 </body>
+ 
 </html>
