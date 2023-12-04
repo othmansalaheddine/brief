@@ -11,6 +11,7 @@
 <body>
     <?php
     require 'host.php';
+    $Tprice = 9999;
     ?>
     <!-- component -->
  
@@ -214,6 +215,7 @@
                         ';
                         }
                     }
+                    $Tprice = 9999;
                     ?>
  
                 </div>
