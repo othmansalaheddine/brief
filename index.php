@@ -11,6 +11,7 @@
 <body>
     <?php
     require 'host.php';
+    $Tprice = 9999;
     ?>
     <!-- component -->
  
@@ -141,6 +142,7 @@
                     if(isset($_POST["Tprice"])){
                       $Tprice = $_POST["Tprice"];
                       
+                      
                     }else{
                       $Tprice = 9999;
                     }
@@ -151,6 +153,8 @@
                     if (isset($_POST["category"])) {
                         $category = intval($_POST["category"]);
                         $_SESSION["category"] = $category;
+                        // unset( $Tprice);
+
                     } else {
                         if (isset($_SESSION["category"])) {
                             $category = $_SESSION["category"];
@@ -162,19 +166,28 @@
                         $offset = ($index * $pageSize);
                     }
  
- 
- 
-                    $sql = "SELECT * FROM product  WHERE new_price < $Tprice";
-                    $counterSql = "SELECT count(*) as count FROM product WHERE new_price < $Tprice";
-                    if ($category > 0) {
-                        $sql = $sql . "  AND category = $category ";
-                        $counterSql = $counterSql . "  AND category = $category";
+                    echo $Tprice ;
+                    $sql = "SELECT * FROM product";
+                    if($Tprice && $category) {
+                      $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
+                    }else if($Tprice){
+                      $sql = $sql . " WHERE new_price < $Tprice ";
+                    }else if($category){
+                      $sql = $sql . " WHERE category = $category ";
                     }
-                    $result = $conn->query($counterSql);
-                    $row = $result->fetch_assoc();
-                    $totalMatchingProducts = intval($row["count"]);
+                    
+                    
+                    // $counterSql = "SELECT count(*) as count FROM product WHERE new_price < $Tprice";
+                    // if ($category > 0) {
+                    //     $sql = $sql . "category = $category";
+                    //     // $counterSql = $counterSql . " AND category = $category";
+                    // }
+                    // $result = $conn->query($counterSql);
+                    // $row = $result->fetch_assoc();
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
+                    echo $sql;
                     $result = $conn->query($sql);
+                    $totalMatchingProducts = mysqli_num_rows($result);
                     
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
@@ -214,6 +227,7 @@
                         ';
                         }
                     }
+                    $Tprice = 9999;
                     ?>
  
                 </div>
