@@ -30,42 +30,24 @@
             <h1 class="text-center text-2xl font-bold text-gray-800">Categories</h1>
         </div>
  
-        <!-- Tab Menu -->
-        <form method="post">
-        <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
+            <!-- Tab Menu -->
+            <form method="post">
+            <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
                 <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                     </svg>
                     <span>ALL</span>
                 </button>
-                <?php 
-                $gat = "SELECT * FROM category";
-                $sum_cate = $conn->query($gat);
-                
-                if($sum_cate->num_rows > 0){
-                while(($cate = $sum_cate->fetch_assoc())){
-                  echo '
-                  <button rel="noopener noreferrer" name="category" value="' . $cate["id"] .'" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+                  <button rel="noopener noreferrer" name="category" value="" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
-                    <span>' . $cate["name"] .'</span>
+                    <a href="pushcategory.php"><span>Ajouter categorie</span></a>
                 </button>
-                  ';
-                }
-              }
-                ?>
-                
-                
+
             </div>
-            <form action="" method="post">
-              <div class="flex">
-                <div class="mr-5">Trier par prix</div>
-                <input class="border-4" type="number" placeholder="low than" name="Tprice">
-              </div>
-              <button type="submit">Filter</button>
             </form>
             
             <!-- Product List -->
@@ -73,101 +55,58 @@
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
                     <?php
-                    
                     $page = 1;
                     $offset = 0;
                     $pageSize = 4;
-                    $category = 0;
                     $Tprice = 9999;
-                    if(isset($_POST["Tprice"])){
-                      $Tprice = $_POST["Tprice"];
-                      
-                      
-                    }else{
-                      $Tprice = 9999;
-                    }
-                    
                     if (isset($_POST["page"])) {
                         $page = intval($_POST["page"]);
                     }
-                    if (isset($_POST["category"])) {
-                        $category = intval($_POST["category"]);
-                        $_SESSION["category"] = $category;
-                        // unset( $Tprice);
-
-                    } else {
-                        if (isset($_SESSION["category"])) {
-                            $category = $_SESSION["category"];
-                        }
-                    }
- 
                     if ($page > 1) {
                         $index = $page - 1;
                         $offset = ($index * $pageSize);
                     }
  
-                    // echo $Tprice ;
-                    $sql = "SELECT * FROM product";
-                    if($Tprice && $category) {
-                      $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
-                    }else if($Tprice){
-                      $sql = $sql . " WHERE new_price < $Tprice ";
-                    }else if($category){
-                      $sql = $sql . " WHERE category = $category ";
-                    }
-                    
-                    
-                    // $counterSql = "SELECT count(*) as count FROM product WHERE new_price < $Tprice";
-                    // if ($category > 0) {
-                    //     $sql = $sql . "category = $category";
-                    //     // $counterSql = $counterSql . " AND category = $category";
-                    // }
-                    // $result = $conn->query($counterSql);
-                    // $row = $result->fetch_assoc();
-                    $sql = $sql . " LIMIT $pageSize OFFSET $offset";
-                    // echo $sql;
+                    $sql = "SELECT * FROM category";
                     $result = $conn->query($sql);
                     $totalMatchingProducts = mysqli_num_rows($result);
-                    
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
                         while (($row = $result->fetch_assoc()) ) {
-                            echo '
+?>
                             <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                 <a >
                                 <div class="relative flex items-end overflow-hidden rounded-xl">
-                                    <img src="assets/image/' . $row['image'] . '" alt="Hotel Photo" />
+                                    <img src="assets/image/<?php echo $row['image']; ?>" alt="Hotel Photo" />
+                                    </div>
+                                    
+                                    <div class="mt-1 p-2">
+                                    <h2 class="text-slate-700"><?php echo $row['name'] ; ?></h2>
+                                    <p class="mt-1 text-sm text-slate-400"> <?php echo $row['description'] ; ?></p>
+                                    
+                                    <div class="mt-3 flex items-end justify-between"> 
+                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                    </svg>
+                                    
+                                    <a href="action_cat.php?delete=<?php echo $row['name'] ; ?>"><button class="text-sm">Supprimer</button></a>
+                                    </div>
                                     <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                     </svg>
  
-                                    <button class="text-sm">Add to cart</button>
-                                    </div>
-                                </div>
- 
-                                <div class="mt-1 p-2">
-                                    <h2 class="text-slate-700">' . $row['name'] . '</h2>
-                                    <p class="mt-1 text-sm text-slate-400">' . $row['city'] . ', ' . $row['country'] . '</p>
- 
-                                    <div class="mt-3 flex items-end justify-between">
-                                        <p class="text-lg font-bold text-blue-500">$' . $row['new_price'] . '</p>
- 
-                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                        </svg>
- 
-                                        <button class="text-sm">Add to cart</button>
+                                    <a href="edit_cat.php?edit=<?php echo $row['name'] ; ?>"><button class="text-sm">Modifier</button></a>
                                     </div>
                                     </div>
                                 </div>
                                 </a>
                             </article>
-                        ';
+                        <?php
                         }
                     }
-                    $Tprice = 9999;
+                    // $Tprice = 9999;
                     ?>
  
                 </div>

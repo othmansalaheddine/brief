@@ -17,7 +17,7 @@ CREATE TABLE category(
    name varchar(25),
    description varchar(225),
    image varchar(255)
-)
+);
 -- @block
 CREATE TABLE product (
    id int PRIMARY KEY AUTO_INCREMENT, 
@@ -29,7 +29,7 @@ CREATE TABLE product (
    country varchar(255),
    city varchar(255),
    category int,
-   FOREIGN KEY (category) REFERENCES category(id)
+   FOREIGN KEY (category) REFERENCES category(id) on delete cascade
 );
 -- @block
 INSERT INTO category (name, description, image) VALUES
