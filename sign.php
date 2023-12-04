@@ -31,7 +31,6 @@
     } else if ($checkUserResult->num_rows === 1){
         // Set Verified to FALSE by default
         header("Location: index.php");
-        
           exit();
         
     }
