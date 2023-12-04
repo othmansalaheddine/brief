@@ -10,7 +10,7 @@
  
 <body>
     <?php
-    require 'host.php';
+    require './back/connexion/host.php';
     ?>
     <!-- component -->
  

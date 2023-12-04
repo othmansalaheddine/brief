@@ -14,7 +14,7 @@
 
 <body>
 <?php
-require 'host.php';
+require './back/connexion/host.php';
 
 if (isset($_POST["Supp"])) {
   $id = isset($_POST["Supp"]) ? $_POST["Supp"] : null;

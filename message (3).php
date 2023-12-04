@@ -1,5 +1,5 @@
 <?php
-include 'host.php'; // Include your database connection file
+include './back/connexion/host.php'; // Include your database connection file
 
 
 // Check for database connection errors

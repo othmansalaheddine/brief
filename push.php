@@ -8,7 +8,7 @@
 </head>
 <body>
 <?php
-include "host.php";
+include "./back/connexion/host.php";
 $selectedRole = "arduino";
 $name = "";
 $city = "";

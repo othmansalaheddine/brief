@@ -8,7 +8,7 @@
 </head>
 <body>
   <?php 
-  include "host.php";
+  include "./back/connexion/host.php";
   $category = "";
   $description = "";
   if ($_SERVER["REQUEST_METHOD"] == "POST") {

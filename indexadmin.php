@@ -10,7 +10,7 @@
  
 <body>
     <?php
-    require 'host.php';
+    require './back/connexion/host.php';
     if(isset($_POST["Supprimer"])){
       $id = intval($_POST["Supprimer"]);
       $supprimer ="DELETE  FROM product WHERE id = $id";
