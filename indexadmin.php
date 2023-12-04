@@ -11,6 +11,20 @@
 <body>
     <?php
     require 'host.php';
+    if(isset($_POST["Supprimer"])){
+      $id = intval($_POST["Supprimer"]);
+      $supprimer ="DELETE  FROM product WHERE id = $id";
+      if ($conn->query($supprimer) === TRUE) {
+        header("Location:". $_SERVER["PHP_SELF"]); 
+        
+        exit();
+        
+
+      } else {
+          echo "Error: " . $supprimer . "<br>" . $conn->error;
+      }
+      
+    }
     ?>
     <!-- component -->
  
@@ -91,7 +105,7 @@
  
         <!-- Tab Menu -->
         <form method="post">
-        <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
+            <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
                 <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
@@ -117,34 +131,21 @@
               }
                 ?>
                 
-                
+                <div>
+                  <input type="text">
+                </div>
             </div>
-            <form action="" method="post">
-              <div class="flex">
-                <div class="mr-5">Trier par prix</div>
-                <input class="border-4" type="number" placeholder="low than" name="Tprice">
-              </div>
-              <button type="submit">Filter</button>
-            </form>
-            
+ 
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
                     <?php
-                    
                     $page = 1;
                     $offset = 0;
                     $pageSize = 4;
                     $category = 0;
-                    $Tprice = 9999;
-                    if(isset($_POST["Tprice"])){
-                      $Tprice = $_POST["Tprice"];
-                      
-                    }else{
-                      $Tprice = 9999;
-                    }
-                    
+                    $supprimer = -10;
                     if (isset($_POST["page"])) {
                         $page = intval($_POST["page"]);
                     }
@@ -164,11 +165,11 @@
  
  
  
-                    $sql = "SELECT * FROM product  WHERE new_price < $Tprice";
-                    $counterSql = "SELECT count(*) as count FROM product WHERE new_price < $Tprice";
+                    $sql = "SELECT * FROM product";
+                    $counterSql = "SELECT count(*) as count FROM product";
                     if ($category > 0) {
-                        $sql = $sql . "  AND category = $category ";
-                        $counterSql = $counterSql . "  AND category = $category";
+                        $sql = $sql . "  WHERE category = $category";
+                        $counterSql = $counterSql . "  WHERE category = $category";
                     }
                     $result = $conn->query($counterSql);
                     $row = $result->fetch_assoc();
@@ -176,9 +177,10 @@
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
                     $result = $conn->query($sql);
                     
+ 
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
-                        while (($row = $result->fetch_assoc()) ) {
+                        while (($row = $result->fetch_assoc())) {
                             echo '
                             <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                 <a >
@@ -205,7 +207,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                         </svg>
  
-                                        <button class="text-sm">Add to cart</button>
+                                        <button class="text-sm" name="Supprimer" value= "' . $row['id'] . '">Supprimer</button>
                                     </div>
                                     </div>
                                 </div>
@@ -244,6 +246,7 @@
                       <span>Terms of service</span>
                   </a>
               </div>
+              
               <div class="flex justify-center pt-4 space-x-4 lg:pt-0 lg:col-end-13">
                   <a rel="noopener noreferrer" href="#" title="Email" class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 duration-150 text-gray-50">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">

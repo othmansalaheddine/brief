@@ -48,7 +48,7 @@ if ($result3->num_rows > 0) {
   $id_category = null;
 }
     // Insert the data into the MySQLi table
-    $sql = "INSERT INTO product (name, new_price , category , city, country,image) VALUES ('$name', '$nameimage' , '$id_category' , '$city' , '$country' , '$nameimage')";
+    $sql = "INSERT INTO product (name, new_price , category , city, country,image) VALUES ('$name', '$new_price' , '$id_category' , '$city' , '$country' , '$nameimage')";
     if ($conn->query($sql) === TRUE) {
         echo "Data inserted successfully";
     } else {
