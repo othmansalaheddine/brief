@@ -33,6 +33,41 @@ CREATE TABLE product (
    
    FOREIGN KEY (category) REFERENCES category(id) on delete cascade
 );
+
+
+CREATE TABLE client (
+    idc INT PRIMARY KEY,
+    nom VARCHAR(30),
+    phone VARCHAR(30),
+    adresse VARCHAR(30),
+    mot_passe VARCHAR(30),
+    email VARCHAR(30),
+    username VARCHAR(30)
+);
+
+CREATE TABLE commande (
+    idcom INT PRIMARY KEY,
+    date_creation DATE,
+    date_envoi DATE,
+    date_livraison DATE,
+    prix_total FLOAT,
+    idclient INT,
+    etat varchar(40),
+    CONSTRAINT fk_client FOREIGN KEY (idclient) REFERENCES client(idc),
+    CONSTRAINT ck_etat check etat in("en attente","en cours","livré")
+);
+
+CREATE TABLE commande_produit (
+    idcom INT,
+    idproduit INT,
+    quantite INT,
+    prix_unitaire FLOAT,
+    prix_total FLOAT,
+    CONSTRAINT fk_com FOREIGN KEY (idcom) REFERENCES commande(idcom),
+    CONSTRAINT fk_prod FOREIGN KEY (idproduit) REFERENCES produit(idp)
+);
+
+
 -- @block
 INSERT INTO category (name, description, image) VALUES
 ("arduino","adadadadadada", "New York"),
