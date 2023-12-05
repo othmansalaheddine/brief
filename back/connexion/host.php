@@ -1,7 +1,7 @@
 <?php
   $servername = 'localhost';
   $user = 'root';
-  $pass = '123';
+  $pass = '';
   $dbname = 'ELECTROTHMAN';
 
   // Create connection
@@ -13,7 +13,7 @@
   }
 
   $conn->close();
-    session_start();
+    // session_start();
 
     $conn = new mysqli($servername, $user, $pass, $dbname);
 
