@@ -13,7 +13,7 @@
   $description = "";
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_FILES['imageToUpload'])) {
-      $nameimage = $_FILES['imageToUpload']['name']['id']['description'];
+      $nameimage = $_FILES['imageToUpload']['name'];
   }
   
   else {
@@ -25,7 +25,7 @@
       if ($category == "" && empty($nameimage) && $description == "") {
         echo 'error';
     } else if ($category != "" && !empty($nameimage) && $description != "") {
-        move_uploaded_file($_FILES['imageToUpload']['tmp_name'], "assets/image_category/" . $_FILES['imageToUpload']['name']['id']['description']);
+        move_uploaded_file($_FILES['imageToUpload']['tmp_name'], "assets/image_category/" . $_FILES['imageToUpload']['name']);
     
         // Insert the data into the MySQLi table
         $sql = "INSERT INTO category (name, image , description) VALUES ('$category', '$nameimage' , '$description')";
