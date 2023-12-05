@@ -11,7 +11,6 @@
 <body>
     <?php
     require 'host.php';
-    $Tprice = 9999;
     ?>
     <!-- component -->
  
@@ -92,7 +91,7 @@
  
         <!-- Tab Menu -->
         <form method="post">
-        <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
+            <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
                 <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
@@ -118,7 +117,6 @@
               }
                 ?>
                 
-                
             </div>
             <form action="" method="post">
               <div class="flex">
@@ -127,18 +125,16 @@
               </div>
               <button type="submit">Filter</button>
             </form>
-            
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
                     <?php
-                    
                     $page = 1;
                     $offset = 0;
                     $pageSize = 4;
                     $category = 0;
-                    $Tprice = 9999;
+
                     if(isset($_POST["Tprice"])){
                       $Tprice = $_POST["Tprice"];
                       
@@ -146,15 +142,13 @@
                     }else{
                       $Tprice = 9999;
                     }
-                    
+
                     if (isset($_POST["page"])) {
                         $page = intval($_POST["page"]);
                     }
                     if (isset($_POST["category"])) {
                         $category = intval($_POST["category"]);
                         $_SESSION["category"] = $category;
-                        // unset( $Tprice);
-
                     } else {
                         if (isset($_SESSION["category"])) {
                             $category = $_SESSION["category"];
@@ -166,32 +160,35 @@
                         $offset = ($index * $pageSize);
                     }
  
-                    echo $Tprice ;
+ 
+ 
                     $sql = "SELECT * FROM product";
-                    if($Tprice && $category) {
-                      $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
-                    }else if($Tprice){
-                      $sql = $sql . " WHERE new_price < $Tprice ";
-                    }else if($category){
-                      $sql = $sql . " WHERE category = $category ";
+                    $counterSql = "SELECT count(*) as count FROM product";
+                    if ($Tprice && $category) {
+                        $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
+                        $counterSql = $counterSql . " WHERE new_price < $Tprice AND category = $category ";
+                    } else if ($Tprice) {
+                        $sql = $sql . " WHERE new_price < $Tprice ";
+                        $counterSql = $counterSql . " WHERE new_price < $Tprice ";
+                    } else if ($category) {
+                        $sql = $sql . " WHERE category = $category ";
+                        $counterSql = $counterSql . " WHERE category = $category ";
                     }
-                    
-                    
-                    // $counterSql = "SELECT count(*) as count FROM product WHERE new_price < $Tprice";
+
                     // if ($category > 0) {
-                    //     $sql = $sql . "category = $category";
-                    //     // $counterSql = $counterSql . " AND category = $category";
+                    //     $sql = $sql . "  WHERE category = $category";
+                    //     $counterSql = $counterSql . "  WHERE category = $category";
                     // }
-                    // $result = $conn->query($counterSql);
-                    // $row = $result->fetch_assoc();
+                    $result = $conn->query($counterSql);
+                    $row = $result->fetch_assoc();
+                    $totalMatchingProducts = intval($row["count"]);
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
-                    echo $sql;
                     $result = $conn->query($sql);
-                    $totalMatchingProducts = mysqli_num_rows($result);
-                    
+ 
+ 
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
-                        while (($row = $result->fetch_assoc()) ) {
+                        while (($row = $result->fetch_assoc())) {
                             echo '
                             <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                 <a >
@@ -227,7 +224,6 @@
                         ';
                         }
                     }
-                    $Tprice = 9999;
                     ?>
  
                 </div>
