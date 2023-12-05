@@ -8,6 +8,8 @@ CREATE TABLE users (
    username varchar(25),
    email varchar(25),
    phone varchar(25),
+   adresse varchar(40)not null,
+   ville varchar(40),
    password varchar(25),
    type ENUM('unverified', 'user', 'admin') DEFAULT 'unverified'
 );
@@ -30,20 +32,9 @@ CREATE TABLE product (
    city varchar(255),
    nbachat int not null,
    category int,
-   
    FOREIGN KEY (category) REFERENCES category(id) on delete cascade
 );
 
-
-CREATE TABLE client (
-    idc INT PRIMARY KEY,
-    nom VARCHAR(30),
-    phone VARCHAR(30),
-    adresse VARCHAR(30),
-    mot_passe VARCHAR(30),
-    email VARCHAR(30),
-    username VARCHAR(30)
-);
 
 CREATE TABLE commande (
     idcom INT PRIMARY KEY,
@@ -53,7 +44,7 @@ CREATE TABLE commande (
     prix_total FLOAT,
     idclient INT,
     etat varchar(40),
-    CONSTRAINT fk_client FOREIGN KEY (idclient) REFERENCES client(idc),
+    CONSTRAINT fk_client FOREIGN KEY (idclient) REFERENCES users(id),
     CONSTRAINT ck_etat check etat in("en attente","en cours","livré")
 );
 
