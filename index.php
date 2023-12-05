@@ -106,10 +106,12 @@
                 while(($cate = $sum_cate->fetch_assoc())){
                   echo '
                   <button rel="noopener noreferrer" name="category" value="' . $cate["id"] .'" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
+
                     <span>' . $cate["name"] .'</span>
                 </button>
                   ';
@@ -125,6 +127,7 @@
               </div>
               <button type="submit">Filter</button>
             </form>
+
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -143,6 +146,8 @@
                       $Tprice = 9999;
                     }
 
+
+ 
                     if (isset($_POST["page"])) {
                         $page = intval($_POST["page"]);
                     }
@@ -164,6 +169,7 @@
  
                     $sql = "SELECT * FROM product";
                     $counterSql = "SELECT count(*) as count FROM product";
+
                     if ($Tprice && $category) {
                         $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
                         $counterSql = $counterSql . " WHERE new_price < $Tprice AND category = $category ";
@@ -179,6 +185,7 @@
                     //     $sql = $sql . "  WHERE category = $category";
                     //     $counterSql = $counterSql . "  WHERE category = $category";
                     // }
+
                     $result = $conn->query($counterSql);
                     $row = $result->fetch_assoc();
                     $totalMatchingProducts = intval($row["count"]);
