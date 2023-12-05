@@ -184,7 +184,55 @@
                 </div>
             </section>
         </form>
+        <div class="pt-32  bg-white">
+            <h1 class="text-center text-2xl font-bold text-gray-800">Populaire Product</h1>
+        </div>
+        <section class="py-10 bg-gray-100">
+                <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+        <?php
+        $sql2="SELECT * FROM product p1 WHERE nbachat = (SELECT MAX(nbachat)FROM product p2 WHERE p1.category = p2.category)";
+        $result2 = $conn->query($sql2);
+        if ($result2->num_rows > 0) {
+          while (($row2 = $result2->fetch_assoc()) ) {
+              echo '
+              <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+                  <a >
+                  <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="assets/image/' . $row2['image'] . '" alt="Hotel Photo" />
+                      <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                      </svg>
 
+                      <button class="text-sm">Add to cart</button>
+                      </div>
+                  </div>
+
+                  <div class="mt-1 p-2">
+                      <h2 class="text-slate-700">' . $row2['name'] . '</h2>
+                      <p class="mt-1 text-sm text-slate-400">' . $row2['city'] . ', ' . $row2['country'] . '</p>
+
+                      <div class="mt-3 flex items-end justify-between">
+                          <p class="text-lg font-bold text-blue-500">$' . $row2['new_price'] . '</p>
+
+                      <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                          </svg>
+
+                          <button class="text-sm">Add to cart</button>
+                      </div>
+                      </div>
+                  </div>
+                  </a>
+              </article>
+          ';
+          }
+      }
+
+        ?>
+                </div>
+        </section>
         <!-- panier -->
 <div id="cartContainer" class="hidden relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
