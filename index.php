@@ -38,7 +38,7 @@
  
         <!-- Tab Menu -->
         <form method="post">
-        <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
+          <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
                 <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
@@ -140,32 +140,31 @@
                         while (($row = $result->fetch_assoc()) ) {
                             ?>
                             <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
-                                <a >
-                                <div class="relative flex items-end overflow-hidden rounded-xl">
-                                    <img src="assets/image/<?php echo  $row['image']; ?>" alt="Hotel Photo" />
-                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                    </svg>
-                                    </div>
-                                </div>
- 
-                                <div class="mt-1 p-2">
-                                    <h2 class="text-slate-700"><?php echo $row['name']; ?></h2> 
-                                    <div class="mt-3 flex items-end justify-between">
-                                        <p class="text-lg font-bold text-blue-500">$<?php echo  $row['new_price']; ?></p>
-   
-                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                        </svg>
- 
-                                        <a href="#?id=<?php echo $row['id']; ?>"><button class="text-sm">Add to cart</button></a>
-                                    </div>
-                                    </div>
-                                </div>
-                                </a>
-                            </article>
+                            <form action="index_action.php?id=<?php echo $row['id']; ?>" method="post">
+                              <div class="relative flex items-end overflow-hidden rounded-xl">
+                                  <img name="img" src="assets/image/<?php echo $row['image']; ?>" alt="Hotel Photo" />
+                                  <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                      </svg>
+                                  </div>
+                              </div>
+                              <div class="mt-1 p-2">
+                                  <h2 name="productName" class="text-slate-700"><?php echo $row['name']; ?></h2>
+                                  <div class="mt-3 flex items-end justify-between">
+                                      <p name="productPrice" class="text-lg font-bold text-blue-500">$<?php echo $row['new_price']; ?></p>
+
+                                      <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                          </svg>
+
+                                          <button type="submit" name="addToCart" class="text-sm">Add to cart</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </form>
+                          </article>
                         <?php
                         }
                     }
@@ -187,6 +186,9 @@
         <div class="pt-32  bg-white">
             <h1 class="text-center text-2xl font-bold text-gray-800">Populaire Product</h1>
         </div>
+
+        <!-- produits populaires -->
+
         <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         <?php
@@ -259,56 +261,37 @@
               <div class="mt-8">
                 <div class="flow-root">
                   <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    <!-- product -->
+                    <?php 
+                    $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+                    ?>
                     <li class="flex py-6">
                       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                         <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
                       </div>
-
-                      <div class="ml-4 flex flex-1 flex-col">
-                        <div>
+                        <div class="ml-4 flex flex-1 flex-col">
+                          <div>
                           <div class="flex justify-between text-base font-medium text-gray-900">
                             <h3>
-                              <a href="#">Throwback Hip Bag</a>
+                              <?php
+                              foreach ($cart as $item) {
+                              }
+                              ?>
+                              <a href="#"><?php echo $item['name']?></a>
                             </h3>
-                            <p class="ml-4">$90.00</p>
+                            <p class="ml-4"><?php echo $item['price']?></p>
                           </div>
-                          <p class="mt-1 text-sm text-gray-500">Salmon</p>
                         </div>
                         <div class="flex flex-1 items-end justify-between text-sm">
-                          <p class="text-gray-500">Qty 1</p>
-
+                          <p class="text-gray-500"><?php echo $item['quantity']?></p>
+                          
                           <div class="flex">
                             <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                           </div>
                         </div>
                       </div>
                     </li>
-                    <li class="flex py-6">
-                      <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                        <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg" alt="Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch." class="h-full w-full object-cover object-center">
-                      </div>
-
-                      <div class="ml-4 flex flex-1 flex-col">
-                        <div>
-                          <div class="flex justify-between text-base font-medium text-gray-900">
-                            <h3>
-                              <a href="#">Medium Stuff Satchel</a>
-                            </h3>
-                            <p class="ml-4">$32.00</p>
-                          </div>
-                          <p class="mt-1 text-sm text-gray-500">Blue</p>
-                        </div>
-                        <div class="flex flex-1 items-end justify-between text-sm">
-                          <p class="text-gray-500">Qty 1</p>
-
-                          <div class="flex">
-                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <!-- More products... -->
+                    <!-- / product -->
                   </ul>
                 </div>
               </div>
