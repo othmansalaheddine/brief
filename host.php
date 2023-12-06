@@ -13,7 +13,7 @@
   }
 
   $conn->close();
-    // session_start();
+    session_start();
 
     $conn = new mysqli($servername, $user, $pass, $dbname);
 
