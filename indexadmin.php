@@ -1,3 +1,7 @@
+<?php
+    session_start(); 
+    require './back/connexion/host.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
  
@@ -75,24 +79,47 @@
             <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
-                    <?php
+                <?php
                     $page = 1;
                     $offset = 0;
                     $pageSize = 4;
                     $category = 0;
-                    $supprimer = -10;
-                    if (isset($_POST["page"])) {
-                        $page = intval($_POST["page"]);
+
+                    if(isset($_POST["Tprice"])){
+                      $Tprice = $_POST["Tprice"];
+                      
+                      
+                    }else{
+                      $Tprice = 9999;
                     }
-                    if (isset($_POST["category"])) {
-                        $category = intval($_POST["category"]);
-                        $_SESSION["category"] = $category;
-                    } else {
-                        if (isset($_SESSION["category"])) {
-                            $category = $_SESSION["category"];
-                        }
-                    }
+
+
  
+                    // Check if the "page" button is pressed
+                    if (isset($_POST["page"])) {
+                      $page = intval($_POST["page"]);
+                      $_SESSION["page"] = $page;
+                    } else {
+                      // If "category" key is not set in $_POST, check if it's set in the session
+                      if (isset($_SESSION["page"])) {
+                          $page = $_SESSION["page"];
+                      }
+                    }
+
+                    // Check if the "category" key is set in the $_POST array
+                    if (isset($_POST["category"])) {
+                      $category = intval($_POST["category"]);
+                      $_SESSION["category"] = $category;
+                    } else {
+                      // If "category" key is not set in $_POST, check if it's set in the session
+                      if (isset($_SESSION["category"])) {
+                          $category = $_SESSION["category"];
+                      }
+                    }
+
+
+
+                    
                     if ($page > 1) {
                         $index = $page - 1;
                         $offset = ($index * $pageSize);
@@ -102,16 +129,30 @@
  
                     $sql = "SELECT * FROM product";
                     $counterSql = "SELECT count(*) as count FROM product";
-                    if ($category > 0) {
-                        $sql = $sql . "  WHERE category = $category";
-                        $counterSql = $counterSql . "  WHERE category = $category";
+
+                    if ($Tprice && $category) {
+                        $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
+                        $counterSql = $counterSql . " WHERE new_price < $Tprice AND category = $category ";
+                    } else if ($Tprice) {
+                        $sql = $sql . " WHERE new_price < $Tprice ";
+                        $counterSql = $counterSql . " WHERE new_price < $Tprice ";
+                    } else if ($category) {
+                        $sql = $sql . " WHERE category = $category ";
+                        $counterSql = $counterSql . " WHERE category = $category ";
                     }
+
+                    // if ($category > 0) {
+                    //     $sql = $sql . "  WHERE category = $category";
+                    //     $counterSql = $counterSql . "  WHERE category = $category";
+                    // }
+
                     $result = $conn->query($counterSql);
                     $row = $result->fetch_assoc();
                     $totalMatchingProducts = intval($row["count"]);
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
                     $result = $conn->query($sql);
-                    
+                      echo $sql ;
+                      echo 'category' . $category ;
  
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
@@ -137,13 +178,18 @@
                                     <div class="mt-3 flex items-end justify-between">
                                         <p class="text-lg font-bold text-blue-500">$' . $row['new_price'] . '</p>
  
-                                    <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                        </svg>
- 
-                                        <button class="text-sm" name="Supprimer" value= "' . $row['id'] . '">Supprimer</button>
-                                    </div>
+                                        <div class="flex">
+                                            <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                            
+    
+                                            <button class="text-sm" name="Supprimer" value= "' . $row['id'] . '">Sup</button>
+                                            </div>
+                                            <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                                            
+    
+                                            <a href="edit_pro.php?edit=' . $row['id'] . '" class="text-sm" name="Modifier" value= "' . $row['id'] . '">Mod</a>
+                                            </div>
+                                        </div>                                  
                                     </div>
                                 </div>
                                 </a>
