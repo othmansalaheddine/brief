@@ -1,3 +1,14 @@
+<?php
+session_start(); 
+    require 'back/connexion/host.php';
+    if(!isset($_SESSION['admin'])){
+      header('location:sign.php?error=sdlkfjsldkjf');
+    }
+    else{
+
+    ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,3 +128,4 @@ if ($result3->num_rows > 0) {
     
 </body>
 </html>
+    <?php }

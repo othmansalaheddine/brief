@@ -1,4 +1,12 @@
+<?php
+session_start(); 
+    require 'back/connexion/host.php';
+    if(!isset($_SESSION['user'])){
+      header('location:sign.php?error=sdlkfjsldkjf');
+    }
+    else{
 
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,7 +74,7 @@ if (isset($_POST["role"])) {
     echo "<p>No user ID provided.</p>";
   }
 } else {
-  echo 'www';
+  echo '';
 }
 include('header.php');
 ?>
@@ -149,3 +157,4 @@ include('header.php');
 </body>
 
 </html>
+<?php }

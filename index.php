@@ -1,6 +1,11 @@
 <?php
 session_start(); 
     require 'back/connexion/host.php';
+    if(!isset($_SESSION['user'])){
+      header('location:sign.php?error=sdlkfjsldkjf');
+    }
+    else{
+
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -379,3 +384,4 @@ session_start();
 </body>
  
 </html>
+<?php }
