@@ -45,7 +45,7 @@ CREATE TABLE commande (
     idclient INT,
     etat varchar(40),
     CONSTRAINT fk_client FOREIGN KEY (idclient) REFERENCES users(id),
-    CONSTRAINT ck_etat check etat in("en attente","en cours","livré")
+    CONSTRAINT ck_etat CHECK (etat IN("en attente","en cours","livré"))
 );
 
 CREATE TABLE commande_produit (
@@ -68,7 +68,7 @@ INSERT INTO category (name, description, image) VALUES
 INSERT INTO product (name, old_price, new_price, category, image, stock, country, city,nbachat) VALUES
 ("LED", 0.5, 0.25, 1, "LED.jpg", 12, "USA", "New York",10),
 ("Resistor", 0.1, 0.05, 3, "Resistor.jpg", 5, "Canada", "Toronto",20),
-("Arduino", 10.0, 5.0, 2, "arduino.jpg", 4, "Germany", "Berlin",9),
+("Arduino", 10.0, 5.0, 2, "arduino.jpg", 4, "Germany", "Berlin",60),
 ("Raspberry Pi", 35.0, 17.5, 2, "Raspberry_Pi.jpg", 1, "France", "Paris",30),
 ("Capacitor", 0.2, 0.1, 1, "Capacitor.jpg", 0, "Australia", "Sydney",40),
 ("Transistor", 0.3, 0.15, 1, "Transistor.jpg", 3, "Japan", "Tokyo",41),

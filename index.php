@@ -1,3 +1,7 @@
+<?php
+session_start(); 
+    require 'back/connexion/host.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
  
@@ -8,21 +12,19 @@
     <title>Document</title>
 </head>
  
-<body>
-    <?php
 
-    require './back/connexion/host.php';
-    ?>
+    
     <!-- component -->
  
     <!-- Create By Joker Banny -->
  
     <body class="bg-white">
+    
         <!-- Header Navbar -->
-    <?php
-      // include('header.php');
-      ?>
+        <?php 
+        require 'header.php';
         
+        ?>
  
  
         <!-- Title -->
@@ -32,53 +34,51 @@
  
         <!-- Tab Menu -->
         <form method="post">
-        <div class="flex flex-wrap items-center  overflow-x-auto overflow-y-hidden py-10 justify-center   bg-white text-gray-800">
-                <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <span>ALL</span>
-                </button>
-                <?php 
-                $gat = "SELECT * FROM category";
-                $sum_cate = $conn->query($gat);
-                
-                if($sum_cate->num_rows > 0){
-                while(($cate = $sum_cate->fetch_assoc())){
-                  echo '
-                  <button rel="noopener noreferrer" name="category" value="' . $cate["id"] .'" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                    </svg>
-                    <span>' . $cate["name"] .'</span>
-                </button>
-                  ';
+          <div class="flex flex-wrap items-center overflow-x-auto overflow-y-hidden py-10 justify-center bg-white text-gray-800">
+          <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>ALL</span>
+          </button>
+          <?php
+          $gat = "SELECT * FROM category";
+          $sum_cate = $conn->query($gat);
+
+                if ($sum_cate->num_rows > 0) {
+                    while (($cate = $sum_cate->fetch_assoc())) {
+                        echo '
+                        <button rel="noopener noreferrer" name="category" value="' . $cate["id"] . '" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+                            <input type="hidden" name="selected_category" value="' . $cate["id"] . '">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            <span>' . $cate["name"] . '</span>
+                        </button>
+                        ';
+                    }
                 }
-              }
                 ?>
-                
-                
             </div>
-            <form action="" method="post">
+            
               <div class="flex">
                 <div class="mr-5">Trier par prix</div>
                 <input class="border-4" type="number" placeholder="low than" name="Tprice">
               </div>
               <button type="submit">Filter</button>
-            </form>
             
+
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
                     <?php
-                    
                     $page = 1;
                     $offset = 0;
                     $pageSize = 4;
                     $category = 0;
-                    $Tprice = 9999;
+
                     if(isset($_POST["Tprice"])){
                       $Tprice = $_POST["Tprice"];
                       
@@ -86,52 +86,69 @@
                     }else{
                       $Tprice = 9999;
                     }
-                    
-                    if (isset($_POST["page"])) {
-                        $page = intval($_POST["page"]);
-                    }
-                    if (isset($_POST["category"])) {
-                        $category = intval($_POST["category"]);
-                        $_SESSION["category"] = $category;
-                        // unset( $Tprice);
 
-                    } else {
-                        if (isset($_SESSION["category"])) {
-                            $category = $_SESSION["category"];
-                        }
-                    }
+
  
+                    // Check if the "page" button is pressed
+                    if (isset($_POST["page"])) {
+                      $page = intval($_POST["page"]);
+                      $_SESSION["page"] = $page;
+                    } else {
+                      // If "category" key is not set in $_POST, check if it's set in the session
+                      if (isset($_SESSION["page"])) {
+                          $page = $_SESSION["page"];
+                      }
+                    }
+
+                    // Check if the "category" key is set in the $_POST array
+                    if (isset($_POST["category"])) {
+                      $category = intval($_POST["category"]);
+                      $_SESSION["category"] = $category;
+                    } else {
+                      // If "category" key is not set in $_POST, check if it's set in the session
+                      if (isset($_SESSION["category"])) {
+                          $category = $_SESSION["category"];
+                      }
+                    }
+
+
+
+                    
                     if ($page > 1) {
                         $index = $page - 1;
                         $offset = ($index * $pageSize);
                     }
  
-                    // echo $Tprice ;
+ 
+ 
                     $sql = "SELECT * FROM product";
-                    if($Tprice && $category) {
-                      $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
-                    }else if($Tprice){
-                      $sql = $sql . " WHERE new_price < $Tprice ";
-                    }else if($category){
-                      $sql = $sql . " WHERE category = $category ";
+                    $counterSql = "SELECT count(*) as count FROM product";
+
+                    if ($Tprice && $category) {
+                        $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
+                        $counterSql = $counterSql . " WHERE new_price < $Tprice AND category = $category ";
+                    } else if ($Tprice) {
+                        $sql = $sql . " WHERE new_price < $Tprice ";
+                        $counterSql = $counterSql . " WHERE new_price < $Tprice ";
+                    } else if ($category) {
+                        $sql = $sql . " WHERE category = $category ";
+                        $counterSql = $counterSql . " WHERE category = $category ";
                     }
-                    
-                    
-                    // $counterSql = "SELECT count(*) as count FROM product WHERE new_price < $Tprice";
+
                     // if ($category > 0) {
-                    //     $sql = $sql . "category = $category";
-                    //     // $counterSql = $counterSql . " AND category = $category";
+                    //     $sql = $sql . "  WHERE category = $category";
+                    //     $counterSql = $counterSql . "  WHERE category = $category";
                     // }
-                    // $result = $conn->query($counterSql);
-                    // $row = $result->fetch_assoc();
+
+                    $result = $conn->query($counterSql);
+                    $row = $result->fetch_assoc();
+                    $totalMatchingProducts = intval($row["count"]);
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
-                    // echo $sql;
                     $result = $conn->query($sql);
-                    $totalMatchingProducts = mysqli_num_rows($result);
-                    
+ 
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
-                        while (($row = $result->fetch_assoc()) ) {
+                        while (($row = $result->fetch_assoc())) {
                             echo '
                             <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                                 <a >
@@ -167,7 +184,6 @@
                         ';
                         }
                     }
-                    $Tprice = 9999;
                     ?>
  
                 </div>
@@ -175,7 +191,7 @@
                     <?php
                     $page = 1;
                     while ($page <= $totalPossiblePages) {
-                        echo '<button class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name="page" value="' . $page . '">' . $page . '</button>';
+                        echo '<button class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name="page" value="' . $page . ' ">' . $page . '</button>';
                         $page++;
                     }
                     ?>
@@ -185,6 +201,9 @@
         <div class="pt-32  bg-white">
             <h1 class="text-center text-2xl font-bold text-gray-800">Populaire Product</h1>
         </div>
+
+        <!-- produits populaires -->
+
         <section class="py-10 bg-gray-100">
                 <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         <?php
@@ -257,56 +276,37 @@
               <div class="mt-8">
                 <div class="flow-root">
                   <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    <!-- product -->
+                    <?php 
+                    $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+                    ?>
                     <li class="flex py-6">
                       <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                         <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
                       </div>
-
-                      <div class="ml-4 flex flex-1 flex-col">
-                        <div>
+                        <div class="ml-4 flex flex-1 flex-col">
+                          <div>
                           <div class="flex justify-between text-base font-medium text-gray-900">
                             <h3>
-                              <a href="#">Throwback Hip Bag</a>
+                              <?php
+                              foreach ($cart as $item) {
+                              }
+                              ?>
+                              <a href="#"><?php echo $item['name']?></a>
                             </h3>
-                            <p class="ml-4">$90.00</p>
+                            <p class="ml-4"><?php echo $item['price']?></p>
                           </div>
-                          <p class="mt-1 text-sm text-gray-500">Salmon</p>
                         </div>
                         <div class="flex flex-1 items-end justify-between text-sm">
-                          <p class="text-gray-500">Qty 1</p>
-
+                          <p class="text-gray-500"><?php echo $item['quantity']?></p>
+                          
                           <div class="flex">
                             <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                           </div>
                         </div>
                       </div>
                     </li>
-                    <li class="flex py-6">
-                      <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                        <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg" alt="Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch." class="h-full w-full object-cover object-center">
-                      </div>
-
-                      <div class="ml-4 flex flex-1 flex-col">
-                        <div>
-                          <div class="flex justify-between text-base font-medium text-gray-900">
-                            <h3>
-                              <a href="#">Medium Stuff Satchel</a>
-                            </h3>
-                            <p class="ml-4">$32.00</p>
-                          </div>
-                          <p class="mt-1 text-sm text-gray-500">Blue</p>
-                        </div>
-                        <div class="flex flex-1 items-end justify-between text-sm">
-                          <p class="text-gray-500">Qty 1</p>
-
-                          <div class="flex">
-                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <!-- More products... -->
+                    <!-- / product -->
                   </ul>
                 </div>
               </div>
@@ -339,6 +339,8 @@
 </div>
 
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+ 
+   
  
     <footer class="py-6  bg-gray-200 text-gray-900">
       <div class="container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50">
@@ -374,22 +376,6 @@
       </div>
   </footer>
  
-<!-- ... Votre code HTML existant ... -->
-
-<!-- Script pour gérer l'état du panier -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const cartButton = document.querySelector('#cartButton');
-    const cartContainer = document.querySelector('#cartContainer');
-
-    // Écoutez l'événement de clic sur l'icône du panier
-    cartButton.addEventListener('click', function () {
-      // Basculez la classe 'hidden' pour afficher ou masquer le panier
-      cartContainer.classList.toggle('hidden');
-    });
-  });
-</script>
 </body>
-
  
 </html>
