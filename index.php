@@ -145,8 +145,6 @@ session_start();
                     $totalMatchingProducts = intval($row["count"]);
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
                     $result = $conn->query($sql);
-                      echo $sql ;
-                      echo 'category' . $category ;
  
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
@@ -200,6 +198,146 @@ session_start();
                 </div>
             </section>
         </form>
+        <div class="pt-32  bg-white">
+            <h1 class="text-center text-2xl font-bold text-gray-800">Populaire Product</h1>
+        </div>
+
+        <!-- produits populaires -->
+
+        <section class="py-10 bg-gray-100">
+                <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+        <?php
+        $sql2="SELECT * FROM product p1 WHERE nbachat = (SELECT MAX(nbachat)FROM product p2 WHERE p1.category = p2.category)";
+        $result2 = $conn->query($sql2);
+        if ($result2->num_rows > 0) {
+          while (($row2 = $result2->fetch_assoc()) ) {
+              echo '
+              <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+                  <a >
+                  <div class="relative flex items-end overflow-hidden rounded-xl">
+                      <img src="assets/image/' . $row2['image'] . '" alt="Hotel Photo" />
+                      <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                      </svg>
+
+                      <button class="text-sm">Add to cart</button>
+                      </div>
+                  </div>
+
+                  <div class="mt-1 p-2">
+                      <h2 class="text-slate-700">' . $row2['name'] . '</h2>
+                      <p class="mt-1 text-sm text-slate-400">' . $row2['city'] . ', ' . $row2['country'] . '</p>
+
+                      <div class="mt-3 flex items-end justify-between">
+                          <p class="text-lg font-bold text-blue-500">$' . $row2['new_price'] . '</p>
+
+                      <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                          </svg>
+
+                          <button class="text-sm">Add to cart</button>
+                      </div>
+                      </div>
+                  </div>
+                  </a>
+              </article>
+          ';
+          }
+      }
+
+        ?>
+                </div>
+        </section>
+        <!-- panier -->
+<div id="cartContainer" class="hidden relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+  <div class="fixed inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="pointer-events-auto w-screen max-w-md">
+          <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+            <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+              <div class="flex items-start justify-between">
+                <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
+                <div class="ml-3 flex h-7 items-center">
+                  <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+                    <span class="absolute -inset-0.5"></span>
+                    <span class="sr-only">Close panel</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="mt-8">
+                <div class="flow-root">
+                  <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    <!-- product -->
+                    <?php 
+                    $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+                    ?>
+                    <li class="flex py-6">
+                      <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
+                      </div>
+                        <div class="ml-4 flex flex-1 flex-col">
+                          <div>
+                          <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3>
+                              <?php
+                              foreach ($cart as $item) {
+                              }
+                              ?>
+                              <a href="#"><?php echo $item['name']?></a>
+                            </h3>
+                            <p class="ml-4"><?php echo $item['price']?></p>
+                          </div>
+                        </div>
+                        <div class="flex flex-1 items-end justify-between text-sm">
+                          <p class="text-gray-500"><?php echo $item['quantity']?></p>
+                          
+                          <div class="flex">
+                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <!-- / product -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+              <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>Subtotal</p>
+                <p>$262.00</p>
+              </div>
+              <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+              <div class="mt-6">
+                <a href="#" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+              </div>
+              <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                <p>
+                  or
+                  <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Continue Shopping
+                    <span aria-hidden="true"> &rarr;</span>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
  
    
