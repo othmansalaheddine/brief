@@ -1,29 +1,10 @@
-<div class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-  <!--
-    Background backdrop, show/hide based on slide-over state.
-
-    Entering: "ease-in-out duration-500"
-      From: "opacity-0"
-      To: "opacity-100"
-    Leaving: "ease-in-out duration-500"
-      From: "opacity-100"
-      To: "opacity-0"
-  -->
+<!-- panier -->
+<div id="cartContainer" class="hidden relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
   <div class="fixed inset-0 overflow-hidden">
     <div class="absolute inset-0 overflow-hidden">
       <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-        <!--
-          Slide-over panel, show/hide based on slide-over state.
-
-          Entering: "transform transition ease-in-out duration-500 sm:duration-700"
-            From: "translate-x-full"
-            To: "translate-x-0"
-          Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
-            From: "translate-x-0"
-            To: "translate-x-full"
-        -->
         <div class="pointer-events-auto w-screen max-w-md">
           <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -123,3 +104,24 @@
     </div>
   </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButton = document.querySelector('#cartButton');
+        const cartContainer = document.querySelector('#cartContainer');
+        const closeCartButton = document.querySelector('#closeCart');
+
+        // Écoutez l'événement de clic sur l'icône du panier
+        cartButton.addEventListener('click', function () {
+            // Basculez la classe 'hidden' pour afficher ou masquer le panier
+            cartContainer.classList.toggle('hidden');
+        });
+
+        // Écoutez l'événement de clic sur le bouton de fermeture du panier
+        closeCartButton.addEventListener('click', function () {
+            // Masquer le panier lorsque le bouton de fermeture est cliqué
+            cartContainer.classList.add('hidden');
+        });
+    });
+</script>
