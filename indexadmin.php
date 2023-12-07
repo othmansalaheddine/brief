@@ -8,8 +8,6 @@
 
     ?>
     
-    require './back/connexion/host.php';
-    ?>
 <!DOCTYPE html>
 <html lang="en">
  

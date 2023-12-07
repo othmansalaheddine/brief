@@ -1,7 +1,7 @@
 <?php
 session_start(); 
     require 'back/connexion/host.php';
-    if(!isset($_SESSION['user'])){
+    if(!isset($_SESSION['user'])&&!isset($_SESSION['admin'])){
       header('location:sign.php?error=sdlkfjsldkjf');
     }
     else{
