@@ -19,7 +19,6 @@ session_start();
 </head>
 <body>
   <?php 
-  session_start();
   $id_pro = $_GET['edit'];
   $_SESSION['id_pro'] = $id_pro;
   include "./back/connexion/host.php";
