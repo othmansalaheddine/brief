@@ -60,4 +60,46 @@ if (isset($_GET['id'])) {
     header('Location: index.php');
     exit;
 }
+
+ // remove product from cart
+    
+ if (isset($_GET['delete_id'])) {
+    $id = $_GET['delete_id'];
+    $delete_from_cart = "DELETE FROM commande_produit WHERE idproduit = '$id'";
+    $result = mysqli_query($conn, $delete_from_cart);
+    if ($result) {
+        header('Location: index.php');
+    }else{
+        die("Connection failed: " . $conn->connect_error);
+    }
+ }
+
+
+
+// modifier quantite produit
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
+        $product_id = $_POST['product_id'];
+        $new_quantity = $_POST['quantity'];
+        $update_quantity_query = "UPDATE commande_produit SET quantite = $new_quantity ,prix_total = prix_unitaire*$new_quantity WHERE idproduit = '$product_id'";
+        $result = mysqli_query($conn, $update_quantity_query);
+
+        if ($result) {
+            // Quantity updated successfully
+            header('Location: index.php'); // Redirect to the same page or update the cart dynamically using JavaScript
+            exit;
+        } else {
+            // Handle the update failure
+            echo "Failed to update quantity: " . mysqli_error($conn);
+        }
+    } else {
+        echo "Invalid parameters for quantity update.";
+    }
+} else {
+    echo "Invalid request method.";
+}
+
+
 ?>
