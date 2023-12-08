@@ -94,9 +94,7 @@ x.addEventListener('click', function(){
         }
         
     }
-    console.log(pro_lenght);
-    let nbrOfPages = Math.ceil(pro_lenght / itemsPerPage);
-
+    
 })
 
 
@@ -116,8 +114,10 @@ x.addEventListener('click', function(){
 // });
 
 
+console.log(pro_lenght);
+    let nbrOfPages = Math.ceil(pro_lenght / itemsPerPage);
+    console.log(nbrOfPages);
 
-console.log(nbrOfPages);
 let pagination = document.getElementById('pagination');
 for (let i = 0; i < nbrOfPages; i++) {
     const listNbr = document.createElement('button');

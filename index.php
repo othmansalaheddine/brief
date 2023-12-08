@@ -14,9 +14,6 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com/"></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="pagination.js"></script>
     <title>Document</title>
 </head>
  
@@ -25,7 +22,6 @@ session_start();
     <!-- component -->
  
     <!-- Create By Joker Banny -->
- 
     <body class="bg-white">
     
         <!-- Header Navbar -->
@@ -321,4 +317,4 @@ session_start();
 </body>
  
 </html>
-<?php }
+<?php }; ?>
