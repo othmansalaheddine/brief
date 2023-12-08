@@ -67,7 +67,20 @@ session_start();
                 <input class="border-4" type="number" placeholder="low than" name="Tprice">
               </div>
               <button type="submit">Filter</button>
-            
+              
+ 
+    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div class="relative">
+        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+        </div>
+        <input tybe = "text" name  ="search"id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." >
+        <button type="submit" name = "sendsearch" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+    </div>
+
+
 
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
@@ -78,7 +91,7 @@ session_start();
                     $offset = 0;
                     $pageSize = 4;
                     $category = 0;
-
+                    //$product = "Arduino";
                     if(isset($_POST["Tprice"])){
                       $Tprice = $_POST["Tprice"];
                       
@@ -86,8 +99,9 @@ session_start();
                     }else{
                       $Tprice = 9999;
                     }
-
-
+                   
+                    
+                    
  
                     // Check if the "page" button is pressed
                     if (isset($_POST["page"])) {
@@ -123,8 +137,19 @@ session_start();
  
                     $sql = "SELECT * FROM product";
                     $counterSql = "SELECT count(*) as count FROM product";
-
-                    if ($Tprice && $category) {
+                     if(isset($_POST['sendsearch'])){
+                         $product = $_POST['search'];
+                        
+                       $Tprice = 0;
+                       $category = 0;
+                       $offset = 0;
+                //         
+                $sql = $sql . " WHERE name = '$product' ";
+                $counterSql = $counterSql . " WHERE name = '$product' ";
+                  
+                   }
+                
+                    if ($Tprice && $category ) {
                         $sql = $sql . " WHERE new_price < $Tprice AND category = $category ";
                         $counterSql = $counterSql . " WHERE new_price < $Tprice AND category = $category ";
                     } else if ($Tprice) {
@@ -134,18 +159,20 @@ session_start();
                         $sql = $sql . " WHERE category = $category ";
                         $counterSql = $counterSql . " WHERE category = $category ";
                     }
-
+                    
+                 
                     // if ($category > 0) {
                     //     $sql = $sql . "  WHERE category = $category";
                     //     $counterSql = $counterSql . "  WHERE category = $category";
                     // }
-
+                     
                     $result = $conn->query($counterSql);
+                    
                     $row = $result->fetch_assoc();
                     $totalMatchingProducts = intval($row["count"]);
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
                     $result = $conn->query($sql);
- 
+                   
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
                     if ($result->num_rows > 0) {
                         while (($row = $result->fetch_assoc())) {
