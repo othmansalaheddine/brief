@@ -72,11 +72,11 @@ if ($result3->num_rows > 0) {
 
 include('header.php');
 ?>
-      <section class="py-10 bg-gray-100">
-        <div class="mx-auto grid max-w-6x gap-6 p-6 w-96">
+      <section class="py-10 bg-gray-100 flex">
+                <div id="formContainer" class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
       <article class="rounded-xl mt-10  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
         <a >
-        <form  method="POST" enctype="multipart/form-data">
+        <form  method="post" enctype="multipart/form-data">
           <div class="relative flex items-end overflow-hidden rounded-xl">
           
     
@@ -118,7 +118,7 @@ include('header.php');
             <div class="mt-3 flex items-end justify-between">
                 <input class="text-lg font-bold text-blue-500 to-blue-500" placeholder="price" name="new_price"></input>
   
-              <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
+              <div class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-3 py-1.5 text-white duration-100 hover:bg-blue-600">
                 <button type="submit" name="submit" value="Submit" class="flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
@@ -129,15 +129,20 @@ include('header.php');
               </div>
             </div>
           </div>
-          </form>
+          
         </a>
+        </form> 
       </article>
+      <button id="plusButton"  name="plus" class="text-white justify-center justify-self-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-24 h-24 mt-24">+  </button>
+      
+       
       </div>
+      
       
       </section>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   
-  
+  <script src="pushplus.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="roleselect.js"></script>
 </body>
