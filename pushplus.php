@@ -47,8 +47,11 @@ if ($result3->num_rows > 0) {
   // Category not found
   $id_category = null;
 }
+
+echo $name;echo '<br>'; echo $city;echo '<br>'; echo $country;echo '<br>';  echo $new_price;echo '<br>'; echo $id_category;
     // Insert the data into the MySQLi table
     $sql = "INSERT INTO product (name, new_price , category , city, country,image) VALUES ('$name', '$new_price' , '$id_category' , '$city' , '$country' , '$nameimage')";
+    echo $conn->query($sql);
     if ($conn->query($sql) === TRUE) {
         echo "Data inserted successfully";
     } else {
@@ -62,9 +65,9 @@ if ($result3->num_rows > 0) {
 
 include('header.php');
 ?>
-      <section class="py-10 bg-gray-100 flex">
+      <section class="py-10 bg-gray-100">
                 <div id="formContainer" class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-      <article class="rounded-xl mt-10  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+      <article  class="rounded-xl mt-10  bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
         <a >
         <form  method="post" enctype="multipart/form-data">
           <div class="relative flex items-end overflow-hidden rounded-xl">
@@ -118,18 +121,23 @@ include('header.php');
                 </button>
               </div>
             </div>
+                
           </div>
           
         </a>
         </form> 
       </article>
-      <button id="plusButton"  name="plus" class="text-white justify-center justify-self-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-24 h-24 mt-24">+  </button>
+      
       
        
+      </div>
+      <div class="mx-auto">
+      
       </div>
       
       
       </section>
+      <button id="plusButton"  name="plus" class="text-white  justify-center object-center justify-self-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-24 h-24 mt-24">+</button>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   
   <script src="pushplus.js"></script>

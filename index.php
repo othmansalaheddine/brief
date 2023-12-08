@@ -33,9 +33,9 @@ session_start();
         </div>
  
         <!-- Tab Menu -->
-        <form method="post">
-          <div class="flex flex-wrap items-center overflow-x-auto overflow-y-hidden py-10 justify-center bg-white text-gray-800">
-          <button rel="noopener noreferrer" name="category" value="0" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 text-gray-600">
+       
+          <div id="filter" class="flex flex-wrap items-center overflow-x-auto overflow-y-hidden py-10 justify-center bg-white text-gray-800">
+          <button id="foudi" rel="noopener noreferrer" name="category" value="0" class="foudi flex items-center flex-shrink-0 px-5 py-3 space-x-2 text-gray-600">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                   <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
               </svg>
@@ -48,7 +48,7 @@ session_start();
                 if ($sum_cate->num_rows > 0) {
                     while (($cate = $sum_cate->fetch_assoc())) {
                         echo '
-                        <button rel="noopener noreferrer" name="category" value="' . $cate["id"] . '" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+                        <button rel="noopener noreferrer" name="category" value="' . $cate["id"] . '" class=" foudi flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
                             <input type="hidden" name="selected_category" value="' . $cate["id"] . '">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -71,7 +71,7 @@ session_start();
 
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
-                <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                <div class="mx-auto grid max-w-6xl product-menu grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
                     <?php
                     $page = 1;
@@ -187,17 +187,17 @@ session_start();
                     ?>
  
                 </div>
-                <div class="flex text-center justify-center">
+                <div id="pagination" class="flex text-center justify-center">
                     <?php
                     $page = 1;
                     while ($page <= $totalPossiblePages) {
-                        echo '<button class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name="page" value="' . $page . ' ">' . $page . '</button>';
+                        echo '<button  class="w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500" name="page" value="' . $page . ' ">' . $page . '</button>';
                         $page++;
                     }
                     ?>
                 </div>
             </section>
-        </form>
+      
         <div class="pt-32  bg-white">
             <h1 class="text-center text-2xl font-bold text-gray-800">Populaire Product</h1>
         </div>
@@ -375,7 +375,7 @@ session_start();
           </div>
       </div>
   </footer>
- 
+ <script src="pagination.js"></script>
 </body>
  
 </html>
