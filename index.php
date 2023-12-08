@@ -1,6 +1,30 @@
 <?php
 session_start(); 
-    require 'back/connexion/host.php';
+require 'back/connexion/host.php';
+
+$pageSize = 4;
+$page = isset($_POST['page']) ? $_POST['page'] : 1;
+$offset = ($page - 1) * $pageSize;
+
+// Retrieve other parameters like category and Tprice from $_POST
+
+$sql = "SELECT * FROM product LIMIT $pageSize OFFSET $offset";
+// Modify the SQL query based on category and Tprice parameters
+
+$result = $conn->query($sql);
+
+$products = [];
+echo $sql ;
+echo '<br>';
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+
+// Return only the JSON-encoded product data
+
+echo json_encode($products);
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +33,9 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com/"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="pagination.js"></script>
     <title>Document</title>
 </head>
  
@@ -71,7 +98,7 @@ session_start();
 
             <!-- Product List -->
             <section class="py-10 bg-gray-100">
-                <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                <div id="products-container" class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
  
                     <?php
                     $page = 1;
@@ -90,15 +117,8 @@ session_start();
 
  
                     // Check if the "page" button is pressed
-                    if (isset($_POST["page"])) {
-                      $page = intval($_POST["page"]);
-                      $_SESSION["page"] = $page;
-                    } else {
-                      // If "category" key is not set in $_POST, check if it's set in the session
-                      if (isset($_SESSION["page"])) {
-                          $page = $_SESSION["page"];
-                      }
-                    }
+                    
+                    
 
                     // Check if the "category" key is set in the $_POST array
                     if (isset($_POST["category"])) {
@@ -145,7 +165,7 @@ session_start();
                     $totalMatchingProducts = intval($row["count"]);
                     $sql = $sql . " LIMIT $pageSize OFFSET $offset";
                     $result = $conn->query($sql);
-                      echo $sql ;
+                      
                       echo 'category' . $category ;
  
                     $totalPossiblePages = ceil($totalMatchingProducts / $pageSize);
@@ -189,6 +209,7 @@ session_start();
                     ?>
  
                 </div>
+                
                 <div class="flex text-center justify-center">
                     <?php
                     $page = 1;
@@ -199,8 +220,9 @@ session_start();
                     ?>
                 </div>
             </section>
-        </form>
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+            </form>
+       
+        
  
    
  
