@@ -14,7 +14,6 @@ session_start();
 <?php 
   require './back/connexion/host.php';
 
-
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $email = $_POST["email"];
@@ -39,12 +38,12 @@ session_start();
 
         // Set Verified to FALSE by default
         if($row['type']==='user'){
-          $_SESSION['user']=$email;
+          $_SESSION['user']=$row['id'];
           echo $email;
           header("Location: index.php");
           exit();
         }else if($row['type']==='admin'){
-          $_SESSION['admin']=$email;
+          $_SESSION['admin']=$row['id'];
           header("Location: admin.php");
           exit();
         }else{
