@@ -1,3 +1,13 @@
+<?php
+session_start(); 
+    require 'back/connexion/host.php';
+    if(!isset($_SESSION['user'])&&!isset($_SESSION['admin'])){
+      header('location:sign.php');
+    }
+    else{
+
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -899,3 +909,4 @@
     </script>
 </body>
 </html>
+<?php }?>
