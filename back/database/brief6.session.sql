@@ -99,3 +99,5 @@ WHERE nbachat = (
 );
 -- @block
 update users set type = 'admin' where username = "fadi";
+-- @block
+SELECT id , category FROM product where category = 1;

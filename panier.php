@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-
-<?php
-      require 'back/connexion/host.php';
-?>
 
   <!-- panier -->
 <div id="cartContainer" class="hidden relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
@@ -119,12 +107,11 @@
         });
 
         // Écoutez l'événement de clic sur le bouton de fermeture du panier
-        closeCartButton.addEventListener('click', function () {
-            // Masquer le panier lorsque le bouton de fermeture est cliqué
-            cartContainer.classList.add('hidden');
-        });
+        // closeCartButton.addEventListener('click', function () {
+        //     // Masquer le panier lorsque le bouton de fermeture est cliqué
+        //     cartContainer.classList.add('hidden');
+        // });
     });
 </script>
-</body>
-</html>
+
 

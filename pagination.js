@@ -63,45 +63,260 @@ for (let i = 0; i < categories.length; i++) {
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
-            <span>${categories[i]['name']}1</span>
+            <span>${categories[i]['name']}</span>
         </button>
     `;
-    if (i === categories.length - 1) {
+    if (categories.length - 1 === 0) {
         filterOfPro.innerHTML += `
         <option value=${1}>produits en rupture de stock</option>
     `;
     }
 }
+
 let foudi = document.querySelectorAll('.foudi');
-let pro_lenght = 0;
+let pro_length = 0;
 let itemsPerPage = 4;
-foudi.forEach(function (x) {
+let nbrOfPages = 0;
+let currentPage = 1; // Added to keep track of the current page
+let remember = 0;
+let startingIndices = []; // Keep track of starting index for each category
+let pagination = document.getElementById('pagination');
+let tofore = 0;
+let where = 0;
+
+function displayPage(pageNumber, category) {
+    document.querySelector('.product-menu').innerHTML = '';
     
 
-x.addEventListener('click', function(){
-    document.querySelector('.product-menu').innerHTML = '';
-    pro_lenght =0;
-    for (let i = 0; i < products.length; i++) {
-
-        
-        if (products[i]['category'] == x.value) {
+    console.log("-----------------");
+    let counter = 0;
+    let i = startingIndices[pageNumber-1]; // Use the stored starting index for the category
+    
+    console.log(startingIndices);
+    console.log(i);
+    while (counter < itemsPerPage && i < products.length) {
+        if (category == 0 || products[i]['category'] == category) {
             displayProducts(products[i]);
-            pro_lenght++;
             
-        }else if(x.value == 0){
+            counter++;
+        }
+        i++;
+    }
+
+    // Update the starting index for the category
+    
+
+    console.log("-----------------");
+}
+
+
+
+function displayPagebyprice(pageNumber, price) {
+    document.querySelector('.product-menu').innerHTML = '';
+    
+
+    console.log("-----------------");
+    let counter = 0;
+    let i = startingIndices[pageNumber-1]; // Use the stored starting index for the category
+    
+    console.log(startingIndices);
+    console.log(i);
+    while (counter < itemsPerPage && i < products.length) {
+        if (products[i]['new_price'] < price) {
             displayProducts(products[i]);
-            pro_lenght++;
+            
+            counter++;
+        }
+        i++;
+    }
+
+    // Update the starting index for the category
+    
+
+    console.log("-----------------");
+}
+
+function displayPagebySearch(pageNumber, Search) {
+    document.querySelector('.product-menu').innerHTML = '';
+    
+
+    console.log("-----------------");
+    let counter = 0;
+    let i = startingIndices[pageNumber-1]; // Use the stored starting index for the category
+    
+    console.log(startingIndices);
+    console.log(i);
+    while (counter < itemsPerPage && i < products.length) {
+        if (products[i]['name'] == Search) {
+            displayProducts(products[i]);
+            
+            counter++;
+        }
+        i++;
+    }
+
+    // Update the starting index for the category
+    
+
+    console.log("-----------------");
+}
+
+let thevalueofx = 0;
+foudi.forEach(function (x) {
+    x.addEventListener('click', function () {
+        currentPage = 1; // Reset current page when a new category is selected
+        remember = 0;
+        thevalueofx = x.value ;
+        startingIndices.length = 0;
+        for (let y = 0;y < products.length ;y++){
+            if (products[y]['category'] == thevalueofx || thevalueofx == 0) {
+                
+                if (tofore == 0){
+                    console.log(y);
+                    startingIndices.push(y);
+                    where++;
+                    tofore = 4 ;
+                }
+                tofore--;
+            }
+            
+        }
+        tofore = 0;
+        displayPage(currentPage, thevalueofx );
+
+        pagination.innerHTML = '';
+        pro_length = 0;
+
+        for (let i = 0; i < products.length; i++) {
+            
+            if (x.value == 0 || products[i]['category'] == x.value) {
+                pro_length++;
+            }
         }
         
+        nbrOfPages = Math.ceil(pro_length / itemsPerPage);
+
+        for (let i = 0; i < nbrOfPages; i++) {
+            const listNbr = document.createElement('button');
+            listNbr.className = 'listPagination w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500';
+            listNbr.innerText = i + 1;
+            listNbr.addEventListener('click', function () {
+                currentPage = i + 1;
+
+                displayPage(currentPage , thevalueofx);
+            });
+            pagination.appendChild(listNbr);
+        }
+        
+    });
+});
+
+// Initial display of products
+displayPage(1 ,0);
+
+document.body.appendChild(pagination);
+
+
+
+
+
+let button_price = document.getElementById("butTprice");
+button_price.addEventListener("click", function(){
+    let value_price = document.getElementById("inTprice").value;
+    console.log(value_price);
+    pagination.innerHTML = '';
+    remember = 0;
+    currentPage = 1;
+    startingIndices.length = 0;
+        for (let y = 0;y < products.length ;y++){
+            if (products[y]['new_price'] < value_price) {
+                
+                if (tofore == 0){
+                    console.log(y);
+                    startingIndices.push(y);
+                    where++;
+                    tofore = 4 ;
+                }
+                tofore--;
+            }
+            
+        }
+        tofore = 0;
+        pagination.innerHTML = '';
+    pro_length = 0;
+    for (let i = 0; i < products.length; i++) {
+            
+        if (products[i]['new_price'] < value_price) {
+            pro_length++;
+        }
     }
-    
+    displayPagebyprice(currentPage , value_price);
+    nbrOfPages = Math.ceil(pro_length / itemsPerPage);
+
+
+    for (let i = 0; i < nbrOfPages; i++) {
+        const listNbr = document.createElement('button');
+        listNbr.className = 'listPagination w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500';
+        listNbr.innerText = i + 1;
+        listNbr.addEventListener('click', function () {
+            currentPage = i + 1;
+            displayPagebyprice(currentPage , value_price);
+        });
+        pagination.appendChild(listNbr);
+    }
+
+
 })
 
 
-})  
+let Search = document.getElementById("Search");
+Search.addEventListener("click", function(){
+    let SearchText = document.getElementById("SearchText").value;
+    console.log(SearchText);
+    pagination.innerHTML = '';
+    remember = 0;
+    currentPage = 1;
+    startingIndices.length = 0;
+        for (let y = 0;y < products.length ;y++){
+            if (products[y]['name'] === SearchText) {
+                
+                if (tofore == 0){
+                    console.log(y);
+                    startingIndices.push(y);
+                    where++;
+                    tofore = 4 ;
+                }
+                tofore--;
+            }
+            
+        }
+        tofore = 0;
+        pagination.innerHTML = '';
+    pro_length = 0;
+    for (let i = 0; i < products.length; i++) {
+            
+        if (products[i]['name'] === SearchText) {
+            pro_length++;
+        }
+    }
+    displayPagebySearch(currentPage , SearchText);
+    nbrOfPages = Math.ceil(pro_length / itemsPerPage);
 
 
-// foudi.addEventListener('click', function() {
+    for (let i = 0; i < nbrOfPages; i++) {
+        const listNbr = document.createElement('button');
+        listNbr.className = 'listPagination w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500';
+        listNbr.innerText = i + 1;
+        listNbr.addEventListener('click', function () {
+            currentPage = i + 1;
+            displayPagebySearch(currentPage , SearchText);
+        });
+        pagination.appendChild(listNbr);
+    }
+
+
+})
+
 //     document.querySelector('.product-menu').innerHTML = '';
 //     console.log(foudi.value);
 //     for (let i = 0; i < products.length; i++) {
@@ -113,35 +328,3 @@ x.addEventListener('click', function(){
 //     }
 // });
 
-
-console.log(pro_lenght);
-    let nbrOfPages = Math.ceil(pro_lenght / itemsPerPage);
-    console.log(nbrOfPages);
-
-let pagination = document.getElementById('pagination');
-for (let i = 0; i < nbrOfPages; i++) {
-    const listNbr = document.createElement('button');
-    listNbr.className = 'listPagination w-10 bg-white shadow-md space-x-10 m-1 hover:bg-blue-500';
-    listNbr.innerText = i + 1;
-    pagination.appendChild(listNbr);
-}
-
-for (let i = 0; i < itemsPerPage; i++) {
-    displayProducts(products[i]);
-}
-
-
-let allListNbr = document.querySelectorAll('.listPagination');
-
-
-allListNbr.forEach(function (list) {
-    list.addEventListener('click', function () {
-        document.querySelector('.product-menu').innerHTML = '';
-        let nbr = Number(list.textContent);
-        for (let i = (nbr - 1) * itemsPerPage; i < (nbr - 1) * itemsPerPage + itemsPerPage; i++) {
-            displayProducts(products[i]);
-        }
-    });
-});
-
-document.body.appendChild(pagination);
