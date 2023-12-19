@@ -1,77 +1,75 @@
 <?php
-include 'host.php'; // Include your database connection file
+include 'back/classes/db_connection.php'; // Include your database connection file
 
 
 // Check for database connection errors
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+Database::getInstance()->getConnection();
 
 // Handle form submission for adding a new category
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addCategory'])) {
-    $categoryName = $_POST['categoryName'];
+    // $categoryName = $_POST['categoryName'];
 
-    // Check if the category already exists in the database
-    $checkCategorySql = "SELECT COUNT(*) as count FROM Categories WHERE CategoryName = '$categoryName'";
-    $categoryResult = $conn->query($checkCategorySql);
+    // // Check if the category already exists in the database
+    // // $checkCategorySql = "SELECT COUNT(*) as count FROM Categories WHERE CategoryName = '$categoryName'";
+    // $categoryResult = $conn->query($checkCategorySql);
 
-    if ($categoryResult) {
-        $categoryCount = $categoryResult->fetch_assoc()['count'];
+    // if ($categoryResult) {
+    //     $categoryCount = $categoryResult->fetch_assoc()['count'];
 
-        if ($categoryCount > 0) {
-            echo "Error: Category already exists. Please use a different category name.";
-        } else {
-            // Insert new category into the database
-            $insertCategorySql = "INSERT INTO Categories (CategoryName) VALUES ('$categoryName')";
+    //     if ($categoryCount > 0) {
+    //         echo "Error: Category already exists. Please use a different category name.";
+    //     } else {
+    //         // Insert new category into the database
+    //         // $insertCategorySql = "INSERT INTO Categories (CategoryName) VALUES ('$categoryName')";
 
-            if ($conn->query($insertCategorySql) === TRUE) {
-                echo "New category '$categoryName' added successfully";
-                header("Location: category-management.php");
-                exit();
-            } else {
-                echo "Error adding new category: " . $conn->error;
-            }
-        }
-    } else {
-        echo "Error executing query to check category existence: " . $conn->error;
-    }
+    //         if ($conn->query($insertCategorySql) === TRUE) {
+    //             echo "New category '$categoryName' added successfully";
+    //             header("Location: category-management.php");
+    //             exit();
+    //         } else {
+    //             echo "Error adding new category: " . $conn->error;
+    //         }
+    //     }
+    // } else {
+    //     echo "Error executing query to check category existence: " . $conn->error;
+    // }
 }
 
 // Fetch categories from the database
-$sql = "SELECT * FROM Categories";
-$result = $conn->query($sql);
+// $sql = "SELECT * FROM Categories";
+// $result = $conn->query($sql);
 
-$categories = [];
+// $categories = [];
 
-if ($result) {
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $categories[] = $row;
-        }
-    } else {
-        echo "Error: No categories found in the database";
-    }
-} else {
-    echo "Error executing query to retrieve categories: " . $conn->error;
-}
+// if ($result) {
+//     if ($result->num_rows > 0) {
+//         while ($row = $result->fetch_assoc()) {
+//             $categories[] = $row;
+//         }
+//     } else {
+//         echo "Error: No categories found in the database";
+//     }
+// } else {
+//     echo "Error executing query to retrieve categories: " . $conn->error;
+// }
 
 // Handle form submission for deleting a category
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCategoryId'])) {
-    $deleteCategoryId = $_POST['deleteCategoryId'];
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteCategoryId'])) {
+//     $deleteCategoryId = $_POST['deleteCategoryId'];
 
-    // Delete category from the database
-    $deleteCategorySql = "DELETE FROM Categories WHERE CategoryID=$deleteCategoryId";
+//     // Delete category from the database
+//     $deleteCategorySql = "DELETE FROM Categories WHERE CategoryID=$deleteCategoryId";
 
-    if ($conn->query($deleteCategorySql) === TRUE) {
-        echo "Category deleted successfully";
-        header("Location: category-management.php");
-        exit();
-    } else {
-        echo "Error deleting category: " . $conn->error;
-    }
-}
+//     if ($conn->query($deleteCategorySql) === TRUE) {
+//         echo "Category deleted successfully";
+//         header("Location: category-management.php");
+//         exit();
+//     } else {
+//         echo "Error deleting category: " . $conn->error;
+//     }
+// }
 
-$conn->close();
+// $conn->close();
 ?>
 
 <!DOCTYPE html>

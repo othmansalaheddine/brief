@@ -1,6 +1,6 @@
 <?php
     session_start(); 
-    require 'back/connexion/host.php';
+    require 'back/classes/db_connection.php';
     if(!isset($_SESSION['admin'])){
       header('location:sign.php?error=sdlkfjsldkjf');
     }

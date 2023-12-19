@@ -1,12 +1,11 @@
 <?php
-session_start(); 
-    require 'back/connexion/host.php';
-    if(!isset($_SESSION['user'])&&!isset($_SESSION['admin'])){
-      header('location:sign.php?error=sdlkfjsldkjf');
-    }
-    else{
-
-    ?>
+// session_start(); 
+//     require 'back/classes/db_connection.php';
+//     if(!isset($_SESSION['user'])&&!isset($_SESSION['admin'])){
+//       header('location:sign.php?error=sdlkfjsldkjf');
+//     }
+//     else{
+     ?>
 <!DOCTYPE html>
 <html lang="en">
  
@@ -48,23 +47,23 @@ session_start();
               <span>ALL</span>
           </button>
           <?php
-          $gat = "SELECT * FROM category";
-          $sum_cate = $conn->query($gat);
+        //   $gat = "SELECT * FROM category";
+        //   $sum_cate = $conn->query($gat);
 
-                if ($sum_cate->num_rows > 0) {
-                    while (($cate = $sum_cate->fetch_assoc())) {
-                        echo '
-                        <button rel="noopener noreferrer" name="category" value="' . $cate["id"] . '" class=" foudi flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
-                            <input type="hidden" name="selected_category" value="' . $cate["id"] . '">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                            <span>' . $cate["name"] . '</span>
-                        </button>
-                        ';
-                    }
-                }
+        //         if ($sum_cate->num_rows > 0) {
+        //             while (($cate = $sum_cate->fetch_assoc())) {
+        //                 echo '
+        //                 <button rel="noopener noreferrer" name="category" value="' . $cate["id"] . '" class=" foudi flex items-center flex-shrink-0 px-5 py-3 space-x-2 rounded-t-lg text-gray-900">
+        //                     <input type="hidden" name="selected_category" value="' . $cate["id"] . '">
+        //                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+        //                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        //                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        //                     </svg>
+        //                     <span>' . $cate["name"] . '</span>
+        //                 </button>
+        //                 ';
+        //             }
+        //         }
                 ?>
             </div>
             
@@ -318,4 +317,4 @@ session_start();
 </body>
  
 </html>
-<?php }
+<?php //}

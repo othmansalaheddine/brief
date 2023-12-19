@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 ?>
 
 <!DOCTYPE html>
@@ -12,38 +12,30 @@ session_start();
 </head>
 <body>
 <?php 
-  require './back/connexion/host.php';
+  require 'back/classes/db_connection.php';
+  require_once 'back/classes/adminDao.php';
+  require_once 'back/classes/clientDao.php';
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+    $db_instance = Database::getInstance()->getConnection();
     $email = $_POST["email"];
-   
+    
     $password = $_POST["password"];
+
+    
     if($email == '' || $password == ''){
       echo 'error';
     }
     else{
-    // Check if the user already exists
-    $checkUserQuery = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
-    $checkUserResult = $conn->query($checkUserQuery);
+    $client=clientDao::authentification($email, $password,$db_instance);
+    $admin=adminDao::authentification($email, $password,$db_instance);
 
-    if ($checkUserResult->num_rows === 0) {
-        echo '<div class ="absolute mt-20 ">EMail or the password is wrong. Please check. </div>';
-        
-                                      
-    } else if ($checkUserResult->num_rows === 1){
-      $row=$checkUserResult->fetch_array();
-      
-      
-
-        // Set Verified to FALSE by default
-        if($row['type']==='user'){
-          $_SESSION['user']=$row['id'];
-          echo $email;
+        if($client){
+          $_SESSION['user']=$email;
           header("Location: index.php");
           exit();
-        }else if($row['type']==='admin'){
-          $_SESSION['admin']=$row['id'];
+        }else if($admin){
+          $_SESSION['admin']=$email;
           header("Location: admin.php");
           exit();
         }else{
@@ -54,7 +46,6 @@ session_start();
         
     }
   }
-}
 
   ?>
     <!-- header -->
@@ -73,8 +64,8 @@ session_start();
             <div class="m-7">
                 <form method="post">
                     <div class="mb-6">
-                        <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Email Address</label>
-                        <input type="email" name="email" id="email" placeholder="you@company.com" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
+                        <label for="username" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">Username</label>
+                        <input type="text" name="email" id="email" placeholder="you@company.com" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
                     </div>
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
